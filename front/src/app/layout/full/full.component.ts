@@ -22,34 +22,19 @@ export class FullComponent {
       menu: "Dashboard",
     },
     {
-      link: "/button",
-      icon: "disc",
-      menu: "Buttons",
+      link: "/projects",
+      icon: "git-pull-request",
+      menu: "Projects",
     },
     {
-      link: "/forms",
-      icon: "layout",
-      menu: "Forms",
+      link: "/people",
+      icon: "users",
+      menu: "People",
     },
     {
-      link: "/alerts",
-      icon: "info",
-      menu: "Alerts",
-    },
-    {
-      link: "/grid-list",
-      icon: "file-text",
-      menu: "Grid List",
-    },
-    {
-      link: "/menu",
-      icon: "menu",
-      menu: "Menus",
-    },
-    {
-      link: "/table",
-      icon: "grid",
-      menu: "Tables",
+      link: "/teams",
+      icon: "code",
+      menu: "Teams",
     },
   ]
 }

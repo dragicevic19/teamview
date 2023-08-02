@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 
 
 export interface PeriodicElement {
-  id: number;
   name: string;
-  work: string;
+  email: string;
   project: string;
-  priority: string;
+  status: string;
   badge: string;
-  budget: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { id: 1, name: 'Deep Javiya', work: 'Frontend Devloper', project: 'Flexy Angular', priority: 'Low', badge: 'badge-info', budget: '$3.9k' },
-  { id: 2, name: 'Nirav Joshi', work: 'Project Manager', project: 'Hosting Press HTML', priority: 'Medium', badge: 'badge-primary', budget: '$24.5k' },
-  { id: 3, name: 'Sunil Joshi', work: 'Web Designer', project: 'Elite Admin', priority: 'High', badge: 'badge-danger', budget: '$12.8k' },
-  { id: 4, name: 'Maruti Makwana', work: 'Backend Devloper', project: 'Material Pro', priority: 'Critical', badge: 'badge-success', budget: '$2.4k' },
+  { name: 'Deep Javiya', email: 'deepjaviya@teamup.com', project: 'Flexy Angular', status: 'On Hold', badge: 'badge-info', startDate: new Date(), endDate: new Date() },
+  { name: 'Nirav Joshi', email: 'niravjoshi@teamup.com', project: 'Hosting Press HTML', status: 'Completed', badge: 'badge-success', startDate: new Date(), endDate: new Date() },
+  { name: 'Sunil Joshi', email: 'sunil@teamup.com', project: 'Elite Admin', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
+  { name: 'Maruti Makwana', email: 'marutimakwana@teamup.com', project: 'Material Pro', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
 ];
 
 
@@ -25,13 +26,22 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+  @Input() dashboard: boolean = false;
 
-  displayedColumns: string[] = ['id', 'assigned', 'name', 'priority', 'budget'];
+  displayedColumns: string[] = ['name', 'project', 'status', 'startDate', 'endDate'];
   dataSource = ELEMENT_DATA;
+  projects = ['test'];
+
+  page = 0;
+  rows = 5;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.page = e.pageIndex;
   }
 
 }

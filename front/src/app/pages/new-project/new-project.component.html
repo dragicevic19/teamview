@@ -1,0 +1,37 @@
+<mat-card class="w-100">
+    <mat-card-content>
+        <div>
+            <div style="display: flex; gap: 1rem;">
+                <mat-form-field appearance="outline">
+                    <mat-label>Project Title</mat-label>
+                    <input matInput [(ngModel)]="newProject.title">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Client</mat-label>
+                    <input matInput [(ngModel)]="newProject.client">
+                </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Project Description</mat-label>
+                <input matInput [(ngModel)]="newProject.description">
+            </mat-form-field>
+
+            <div class="mb-12" *ngIf="isTeamSelected()" style="display: flex; gap: 1rem; align-items: center;">
+                <h4>Selected Team:</h4>
+                <mat-chip-listbox style="cursor: pointer;">
+                    <mat-chip (click)="removeTeam()">{{newProject.team.team}}</mat-chip>
+                </mat-chip-listbox>
+            </div>
+
+            <app-teams [selection]="true" (teamSelected)="teamSelected($event)">
+            </app-teams>
+
+            <div>
+                <button (click)="submit()" mat-stroked-button style="width: 100%;">DONE</button>
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>

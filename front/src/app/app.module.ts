@@ -15,6 +15,11 @@ import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { PeopleComponent } from './pages/people/people.component';
+import { TeamsComponent } from './pages/teams/teams.component';
+import { NewTeamComponent } from './pages/new-team/new-team.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NewProjectComponent } from './pages/new-project/new-project.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,10 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     SalesComponent,
     ProjectsComponent,
     CardsComponent,
+    PeopleComponent,
+    TeamsComponent,
+    NewTeamComponent,
+    NewProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +42,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     TeamViewModule,
     BrowserAnimationsModule,
     FeatherModule.pick(allIcons),
-    NgApexchartsModule
+    NgApexchartsModule,
+    FormsModule,
+    ReactiveFormsModule,
 
   ],
   providers: [],
