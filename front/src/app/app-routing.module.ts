@@ -8,6 +8,7 @@ import { PeopleComponent } from './pages/people/people.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { NewTeamComponent } from './pages/new-team/new-team.component';
 import { NewProjectComponent } from './pages/new-project/new-project.component';
+import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'projects', component: ProjectsComponent },
       { path: 'projects/new', component: NewProjectComponent },
       { path: 'people', component: PeopleComponent },
+      { path: 'people/new', component: NewEmployeeComponent },
       { path: 'teams', component: TeamsComponent },
       { path: 'teams/new', component: NewTeamComponent },
     ],

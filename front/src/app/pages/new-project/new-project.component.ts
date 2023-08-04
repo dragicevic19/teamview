@@ -31,6 +31,9 @@ export class NewProjectComponent implements OnInit {
 
   removeTeam() {
     this.newProject.team = {};
+    this.snackBar.open('Team is removed!', 'OK', {
+      duration: 1000
+    });
   }
 
   constructor(public snackBar: MatSnackBar) { }

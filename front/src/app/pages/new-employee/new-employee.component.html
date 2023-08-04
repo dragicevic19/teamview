@@ -1,0 +1,64 @@
+<mat-card class="w-100">
+    <mat-card-content>
+        <div>
+            <div style="display: flex; gap: 1rem;">
+                <mat-form-field appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput [(ngModel)]="newEmployee.name">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput [(ngModel)]="newEmployee.lastName">
+                </mat-form-field>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput [(ngModel)]="newEmployee.email">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Address</mat-label>
+                    <input matInput [(ngModel)]="newEmployee.address">
+                </mat-form-field>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <mat-form-field appearance="outline">
+                    <mat-label>Position</mat-label>
+                    <input matInput [(ngModel)]="newEmployee.position">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Seniority</mat-label>
+                    <mat-select [(ngModel)]="newEmployee.seniority">
+                        <mat-option *ngFor="let seniority of seniorityOptions" [value]="seniority.value">
+                            {{seniority.show}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="mb-12" style="display: flex; gap: 1rem; align-items: center; justify-content: space-between;">
+                <div>
+                    <h4>Selected Team:</h4>
+                    <mat-chip-listbox *ngIf="isTeamSelected()" style="cursor: pointer;">
+                        <mat-chip (click)="removeTeam()">{{newEmployee.team.team}}</mat-chip>
+                    </mat-chip-listbox>
+                </div>
+
+                <div>
+                    <button (click)="submit()" mat-stroked-button style="width: 100%; background-color: lightskyblue;" >Add Employee</button>
+                </div>
+                
+            </div>
+
+            <app-teams [selection]="true" (teamSelected)="teamSelected($event)">
+            </app-teams>
+
+        </div>
+
+    </mat-card-content>
+</mat-card>

@@ -20,6 +20,7 @@ import { TeamsComponent } from './pages/teams/teams.component';
 import { NewTeamComponent } from './pages/new-team/new-team.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewProjectComponent } from './pages/new-project/new-project.component';
+import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { NewProjectComponent } from './pages/new-project/new-project.component';
     TeamsComponent,
     NewTeamComponent,
     NewProjectComponent,
+    NewEmployeeComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ export interface PeriodicElement {
   name: string;
   email: string;
   project: string;
+  client: string;
   status: string;
   badge: string;
   startDate: Date;
@@ -13,10 +14,10 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Deep Javiya', email: 'deepjaviya@teamup.com', project: 'Flexy Angular', status: 'On Hold', badge: 'badge-info', startDate: new Date(), endDate: new Date() },
-  { name: 'Nirav Joshi', email: 'niravjoshi@teamup.com', project: 'Hosting Press HTML', status: 'Completed', badge: 'badge-success', startDate: new Date(), endDate: new Date() },
-  { name: 'Sunil Joshi', email: 'sunil@teamup.com', project: 'Elite Admin', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
-  { name: 'Maruti Makwana', email: 'marutimakwana@teamup.com', project: 'Material Pro', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
+  { name: 'Deep Javiya', email: 'deepjaviya@teamup.com', project: 'Flexy Angular', client: 'John Doe', status: 'On Hold', badge: 'badge-info', startDate: new Date(), endDate: new Date() },
+  { name: 'Nirav Joshi', email: 'niravjoshi@teamup.com', project: 'Hosting Press HTML', client: 'John Doe', status: 'Completed', badge: 'badge-success', startDate: new Date(), endDate: new Date() },
+  { name: 'Sunil Joshi', email: 'sunil@teamup.com', project: 'Elite Admin', client: 'John Doe', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
+  { name: 'Maruti Makwana', email: 'marutimakwana@teamup.com', project: 'Material Pro', client: 'John Doe', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
 ];
 
 
@@ -28,7 +29,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ProjectsComponent implements OnInit {
   @Input() dashboard: boolean = false;
 
-  displayedColumns: string[] = ['name', 'project', 'status', 'startDate', 'endDate'];
+  displayedColumns: string[] = ['name', 'project', 'client', 'status', 'startDate', 'endDate'];
   dataSource = ELEMENT_DATA;
   projects = ['test'];
 
