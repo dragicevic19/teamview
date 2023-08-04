@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-content>
+      <h4 class="mb-32">Sales Overview</h4>
+  
+      <div class="max-width">
+        <apx-chart [series]="activeUserCardChartOptions.series" [dataLabels]="activeUserCardChartOptions.dataLabels"
+          [chart]="activeUserCardChartOptions.chart" [legend]="activeUserCardChartOptions.legend"
+          [xaxis]="activeUserCardChartOptions.xaxis" [grid]="activeUserCardChartOptions.grid"
+          [stroke]="activeUserCardChartOptions.stroke" [tooltip]="activeUserCardChartOptions.tooltip"
+          [plotOptions]="activeUserCardChartOptions.plotOptions">
+        </apx-chart>
+      </div>
+    </mat-card-content>
+  </mat-card>

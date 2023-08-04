@@ -1,0 +1,102 @@
+<mat-card class="w-100">
+    <mat-card-content>
+        <div style="display: flex; justify-content: space-between;">
+            <h4 class="mb-24">Employees</h4>
+            <button *ngIf="!selection" routerLink="/people/new" mat-button class="mb-24">Add New Employee</button>
+        </div>
+
+        <div *ngIf="!employees.length">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+
+        <div *ngIf="employees.length" class="table-responsive">
+            <table mat-table [dataSource]="dataSource" class="text-nowrap w-100">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Personal Details </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="mb-0 fw-medium">{{ element.name }}</p>
+                        <p class="mb-0 fw-normal op-5">{{ element.email }}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Team Column -->
+                <ng-container matColumnDef="team">
+                    <th mat-header-cell *matHeaderCellDef> Team </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="mb-0 fw-medium">{{element.team}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Project Column -->
+                <ng-container matColumnDef="project">
+                    <th mat-header-cell *matHeaderCellDef> Project </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="mb-0 fw-medium op-5">{{element.project}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> Position </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="mb-0 fw-medium">{{element.position}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Seniority Column -->
+                <ng-container matColumnDef="seniority">
+                    <th mat-header-cell *matHeaderCellDef> Seniority</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span class="badge {{element.badge}} rounded-pill">{{element.seniority}}</span>
+                    </td>
+                </ng-container>
+
+                <!-- Start Date Column -->
+                <ng-container matColumnDef="startDate">
+                    <th mat-header-cell *matHeaderCellDef> Start Date </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="mb-0 fw-medium">{{element.startDate | date}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- End Date Column -->
+                <ng-container matColumnDef="endDate">
+                    <th mat-header-cell *matHeaderCellDef> End Date </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="mb-0 fw-medium">{{element.endDate | date}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container *ngIf="selection" matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu4">
+							<mat-icon>more_vert</mat-icon>
+						</button>
+						<mat-menu #menu4="matMenu">
+							<button mat-menu-item (click)="leadSelection(row)">
+								<mat-icon>manage_accounts</mat-icon>
+								<span>Set as Team Lead</span>
+							</button>
+							<button mat-menu-item (click)="employeeSelection(row)">
+								<mat-icon>add_circle</mat-icon>
+								<span>Add to Team</span>
+							</button>
+						</mat-menu>
+                    </td>
+                  </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+            </table>
+
+            <mat-paginator [length]="100" hidePageSize="true" [pageSize]="rows" aria-label="Select page">
+            </mat-paginator>
+        </div>
+
+
+    </mat-card-content>
+</mat-card>
