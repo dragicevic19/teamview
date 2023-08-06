@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.7</version>
+        <version>3.0.9</version>
     </parent>
 
     <groupId>org.teamview</groupId>
@@ -19,7 +19,7 @@
     <url>http://maven.apache.org</url>
     <modules>
         <module>infra</module>
-        <module>backend/Common</module>
+        <module>./backend/Common</module>
     </modules>
 
 
