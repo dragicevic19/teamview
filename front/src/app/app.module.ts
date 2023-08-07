@@ -23,6 +23,8 @@ import { NewProjectComponent } from './pages/new-project/new-project.component';
 import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SeniorityToBadgePipe } from './pipes/seniority-to-badge.pipe';
+import { ProjectStatusToBadgePipe } from './pipes/project-status-to-badge.pipe';
+import { ProjectStatusToStringPipe } from './pipes/project-status-to-string.pipe';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { SeniorityToBadgePipe } from './pipes/seniority-to-badge.pipe';
     NewProjectComponent,
     NewEmployeeComponent,
     SeniorityToBadgePipe,
+    ProjectStatusToBadgePipe,
+    ProjectStatusToStringPipe,
   ],
   imports: [
     BrowserModule,

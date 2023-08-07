@@ -6,5 +6,5 @@ export interface Team {
     lead: string;
     leadsMail: string;
     members: number;
-    project: Project;
+    project?: Project;
 }

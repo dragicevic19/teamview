@@ -10,14 +10,14 @@
         </div>
 
         <div *ngIf="teams.length" class="table-responsive">
-            <table mat-table [dataSource]="dataSource" class="text-nowrap w-100">
+            <table mat-table [dataSource]="teams" class="text-nowrap w-100">
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Team Lead </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{ element.name }}</p>
-                        <p class="mb-0 fw-normal op-5">{{ element.email }}</p>
+                        <p class="mb-0 fw-medium">{{ element.lead }}</p>
+                        <p class="mb-0 fw-normal op-5">{{ element.leadsMail }}</p>
                     </td>
                 </ng-container>
 
@@ -25,7 +25,7 @@
                 <ng-container matColumnDef="team">
                     <th mat-header-cell *matHeaderCellDef> Team </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{element.team}}</p>
+                        <p class="mb-0 fw-medium">{{element.name}}</p>
                     </td>
                 </ng-container>
 
@@ -41,7 +41,7 @@
                 <ng-container matColumnDef="project">
                     <th mat-header-cell *matHeaderCellDef> Project </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium op-5">{{element.project}}</p>
+                        <p class="mb-0 fw-medium op-5">{{element.project?.title}}</p>
                     </td>
                 </ng-container>
 
@@ -49,7 +49,7 @@
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef> Status </th>
                     <td mat-cell *matCellDef="let element">
-                        <span class="badge {{element.badge}} rounded-pill">{{element.status}}</span>
+                        <span class="badge {{element.project?.status | projectStatusToBadge}} rounded-pill">{{element.project?.status | projectStatusToString}}</span>
                     </td>
                 </ng-container>
 
@@ -57,7 +57,7 @@
                 <ng-container matColumnDef="startDate">
                     <th mat-header-cell *matHeaderCellDef> Start Date </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{element.startDate | date}}</p>
+                        <p class="mb-0 fw-medium">{{element.project?.startDate | date}}</p>
                     </td>
                 </ng-container>
 
@@ -65,7 +65,7 @@
                 <ng-container matColumnDef="endDate">
                     <th mat-header-cell *matHeaderCellDef> End Date </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{element.endDate | date}}</p>
+                        <p class="mb-0 fw-medium">{{element.project?.endDate | date}}</p>
                     </td>
                 </ng-container>
 
@@ -73,7 +73,7 @@
                 <tr style="cursor: pointer;" (click)="teamSelection(row)" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [length]="100" hidePageSize="true" [pageSize]="rows" aria-label="Select page">
+            <mat-paginator [length]="totalItems" hidePageSize="true" [pageSize]="rows" (page)="handlePageEvent($event)">
             </mat-paginator>
         </div>
 
