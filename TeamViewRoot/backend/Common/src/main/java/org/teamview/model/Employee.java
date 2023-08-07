@@ -24,14 +24,18 @@ public class Employee extends User {
     private SeniorityLevel seniority;
 
     @Column
-    private Boolean teamLead;
+    private boolean teamLead;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Project> projects;
+    private Set<Project> pastProjects;
 
 
 

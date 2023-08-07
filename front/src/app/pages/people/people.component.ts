@@ -1,22 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-
-export interface PeriodicElement {
-  name: string;
-  email: string;
-  project: string;
-  team: string;
-  badge: string;
-  position: string;
-  seniority: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Deep Javiya', email: 'deepjaviya@teamup.com', project: 'Flexy Angular', team: 'Flexies', position: 'Backend Developer', seniority: 'Medior', badge: 'badge-info' },
-  { name: 'Nirav Joshi', email: 'niravjoshi@teamup.com', project: 'Elite Admin', team: 'EliteTeam', position: 'Frontend Developer', seniority: 'Senior', badge: 'badge-danger' },
-  { name: 'Sunil Joshi', email: 'sunil@teamup.com', project: 'Elite Admin', team: 'EliteTeam', position: 'Frontend Developer', seniority: 'Senior', badge: 'badge-danger' },
-  { name: 'Maruti Makwana', email: 'marutimakwana@teamup.com', project: 'Elite Admin', team: 'EliteTeam', position: 'Backend Developer', seniority: 'Junior', badge: 'badge-success' },
-];
+import { Employee } from 'src/app/model/Employee';
+import { PaginationResponse } from 'src/app/model/PaginationResponse';
+import { UserService } from 'src/app/service/user.service';
 
 
 @Component({
@@ -32,18 +18,37 @@ export class PeopleComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'team', 'project', 'position', 'seniority'];
   columnsWithActions: string[] = ['name', 'team', 'project', 'position', 'seniority', 'actions'];
-  dataSource = ELEMENT_DATA;
-  employees = ['test'];
+  employees: Employee[] = [];
   page = 0;
   rows = 4;
+  totalItems = 0;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService.fetchEmployees(this.rows, 0).subscribe({
+      next: (res: PaginationResponse) => {
+        this.totalItems = res.totalItems;
+        this.employees = res.data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   handlePageEvent(e: PageEvent) {
     this.page = e.pageIndex;
+    
+    this.userService.fetchEmployees(this.rows, this.page).subscribe({
+      next: (res) => {
+        this.totalItems = res.totalItems;
+        this.employees = res.data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   getDisplayedColumns() {

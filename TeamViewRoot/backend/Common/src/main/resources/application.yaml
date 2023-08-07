@@ -2,12 +2,13 @@ spring:
   datasource:
     username: postgres
     password: admin
-    url: jdbc:postgresql://localhost:5432/teamview
+    url: jdbc:postgresql://localhost:5432/teamview?currentSchema=public
     driver-class-name: org.postgresql.Driver
 
   sql:
     init:
       platform: postgres
+      mode: always
 
   jpa:
     hibernate:
@@ -16,3 +17,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
+    defer-datasource-initialization: true

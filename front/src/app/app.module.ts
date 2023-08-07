@@ -21,6 +21,8 @@ import { NewTeamComponent } from './pages/new-team/new-team.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewProjectComponent } from './pages/new-project/new-project.component';
 import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { SeniorityToBadgePipe } from './pipes/seniority-to-badge.pipe';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { NewEmployeeComponent } from './pages/new-employee/new-employee.componen
     NewTeamComponent,
     NewProjectComponent,
     NewEmployeeComponent,
+    SeniorityToBadgePipe,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { NewEmployeeComponent } from './pages/new-employee/new-employee.componen
     NgApexchartsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
 
   ],
   providers: [],

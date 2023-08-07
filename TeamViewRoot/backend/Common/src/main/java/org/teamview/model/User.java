@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +25,5 @@ public class User {
     private String address;
     @Column
     private String email;
-    @Column
-    private String password;
 
 }

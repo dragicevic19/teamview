@@ -30,8 +30,7 @@ public class Team {
     private Employee teamLead;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "team")
     private Project project;
 
 
