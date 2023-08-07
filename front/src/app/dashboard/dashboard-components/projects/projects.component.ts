@@ -1,25 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-
-
-export interface PeriodicElement {
-  name: string;
-  email: string;
-  project: string;
-  client: string;
-  status: string;
-  badge: string;
-  startDate: Date;
-  endDate: Date;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Deep Javiya', email: 'deepjaviya@teamup.com', project: 'Flexy Angular', client: 'John Doe', status: 'On Hold', badge: 'badge-info', startDate: new Date(), endDate: new Date() },
-  { name: 'Nirav Joshi', email: 'niravjoshi@teamup.com', project: 'Hosting Press HTML', client: 'John Doe', status: 'Completed', badge: 'badge-success', startDate: new Date(), endDate: new Date() },
-  { name: 'Sunil Joshi', email: 'sunil@teamup.com', project: 'Elite Admin', client: 'John Doe', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
-  { name: 'Maruti Makwana', email: 'marutimakwana@teamup.com', project: 'Material Pro', client: 'John Doe', status: 'In Progress', badge: 'badge-primary', startDate: new Date(), endDate: new Date() },
-];
-
+import { Project } from 'src/app/model/Project';
+import { ProjectService } from 'src/app/service/project.service';
 
 @Component({
   selector: 'app-projects',
@@ -29,20 +11,34 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ProjectsComponent implements OnInit {
   @Input() dashboard: boolean = false;
 
-  displayedColumns: string[] = ['name', 'project', 'client', 'status', 'startDate', 'endDate'];
-  dataSource = ELEMENT_DATA;
-  projects = ['test'];
+  displayedColumns: string[] = ['project', 'client', 'team', 'name', 'status', 'startDate', 'endDate'];
+  projects: Project[] = [];
 
   page = 0;
   rows = 5;
+  totalItems = 0;
 
-  constructor() { }
+  constructor(private projectService: ProjectService) { }
 
   ngOnInit(): void {
+    this.fetchProjects();
+  }
+
+  fetchProjects() {
+    this.projectService.fetchProjects(this.rows, this.page).subscribe({
+      next: (res) => {
+        this.totalItems = res.totalItems;
+        this.projects = res.data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   handlePageEvent(e: PageEvent) {
     this.page = e.pageIndex;
+    this.fetchProjects();
   }
 
 }

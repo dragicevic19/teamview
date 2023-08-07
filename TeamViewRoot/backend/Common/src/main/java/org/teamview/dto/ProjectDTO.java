@@ -15,6 +15,7 @@ public class ProjectDTO {
     private String title;
     private String lead;
     private String leadsMail;
+    private String team;
     private String client;
     private String status;
     private LocalDate startDate;
@@ -23,11 +24,15 @@ public class ProjectDTO {
     public ProjectDTO(Project project) {
         this.id = project.getId();
         this.title = project.getTitle();
-        this.lead = project.getTeam().getTeamLead().getName() + " " + project.getTeam().getTeamLead().getLastName();
-        this.leadsMail = project.getTeam().getTeamLead().getEmail();
         this.client = project.getClient();
         this.status = project.getStatus().name();
         this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
+
+        if (project.getTeam() != null) {
+            this.lead = project.getTeam().getTeamLead().getName() + " " + project.getTeam().getTeamLead().getLastName();
+            this.leadsMail = project.getTeam().getTeamLead().getEmail();
+            this.team = project.getTeam().getName();
+        }
     }
 }

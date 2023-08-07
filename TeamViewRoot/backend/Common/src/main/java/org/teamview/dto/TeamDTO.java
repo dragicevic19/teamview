@@ -22,6 +22,7 @@ public class TeamDTO {
         this.lead = team.getTeamLead().getName() + " " + team.getTeamLead().getLastName();
         this.leadsMail = team.getTeamLead().getEmail();
         this.members = team.getMembers().size();
-        this.project = new ProjectDTO(team.getProject());
+        if (team.getProject() != null)
+            this.project = new ProjectDTO(team.getProject());
     }
 }
