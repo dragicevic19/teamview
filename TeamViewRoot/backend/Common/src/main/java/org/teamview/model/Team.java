@@ -21,11 +21,11 @@ public class Team {
     @Column
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private List<Employee> members;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "lead_id")
     private Employee teamLead;
 

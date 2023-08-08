@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.teamview.dto.EmployeeDTO;
 import org.teamview.dto.PaginationDTO;
+import org.teamview.exception.NotFoundException;
 import org.teamview.model.Employee;
 import org.teamview.repository.EmployeeRepository;
 
@@ -29,5 +30,10 @@ public class EmployeeService {
         }
 
         return new PaginationDTO<>(dtos, pagedEmps.getTotalElements());
+    }
+
+    public Employee findById(Long id) {
+        return this.employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee doesn't exist"));
     }
 }

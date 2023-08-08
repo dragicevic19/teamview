@@ -30,9 +30,9 @@ public class Employee extends User {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id")
-    private Project project;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "project_id")
+//    private Project project;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Project> pastProjects;

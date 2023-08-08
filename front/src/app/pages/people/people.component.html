@@ -41,7 +41,10 @@
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef> Position </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{element.position }}</p>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <p class="mb-0 fw-medium">{{element.position }}</p>
+                            <span *ngIf="element.lead" class="badge bg-warning rounded-pill" style="color: black;">Lead</span>
+                        </div>
                     </td>
                 </ng-container>
 

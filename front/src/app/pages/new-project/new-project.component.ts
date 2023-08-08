@@ -47,7 +47,7 @@ export class NewProjectComponent implements OnInit {
     }
 
     this.newProject.team = team;
-    this.snackBar.open('Successfully selected team: ' + team.team, 'OK', {
+    this.snackBar.open('Successfully selected team: ' + team.name, 'OK', {
       duration: 2000
     });
   }

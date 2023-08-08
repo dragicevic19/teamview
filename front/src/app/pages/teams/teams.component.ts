@@ -12,8 +12,8 @@ export class TeamsComponent implements OnInit {
   @Input() selection: boolean = false;
   @Output() teamSelected = new EventEmitter<any>();
 
-  displayedColumns: string[] = ['name', 'team', 'members', 'project', 'status', 'startDate', 'endDate'];
-  columnsWithActions: string[] = ['name', 'team', 'members', 'project', 'status', 'startDate', 'endDate', 'actions'];
+  displayedColumns: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate'];
+  columnsWithActions: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate', 'actions'];
 
   teams: Team[] = [];
 

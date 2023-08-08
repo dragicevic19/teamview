@@ -30,7 +30,7 @@ export class PeopleComponent implements OnInit {
   }
 
   fetchEmployees() {
-    this.userService.fetchEmployees(this.rows, 0).subscribe({
+    this.userService.fetchEmployees(this.rows, this.page).subscribe({
       next: (res: PaginationResponse) => {
         this.totalItems = res.totalItems;
         this.employees = res.data;

@@ -30,8 +30,10 @@ public class ProjectDTO {
         this.endDate = project.getEndDate();
 
         if (project.getTeam() != null) {
-            this.lead = project.getTeam().getTeamLead().getName() + " " + project.getTeam().getTeamLead().getLastName();
-            this.leadsMail = project.getTeam().getTeamLead().getEmail();
+            if (project.getTeam().getTeamLead() != null) {
+                this.lead = project.getTeam().getTeamLead().getName() + " " + project.getTeam().getTeamLead().getLastName();
+                this.leadsMail = project.getTeam().getTeamLead().getEmail();
+            }
             this.team = project.getTeam().getName();
         }
     }

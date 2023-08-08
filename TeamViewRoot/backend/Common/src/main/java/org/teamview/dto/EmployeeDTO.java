@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.teamview.model.Employee;
-import org.teamview.model.Team;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,10 +22,12 @@ public class EmployeeDTO {
         this.id = employee.getId();
         this.name = employee.getName() + " " + employee.getLastName();
         this.email = employee.getEmail();
-        if (employee.getProject() != null)
-            this.project = new ProjectDTO(employee.getProject());
-        if (employee.getTeam() != null)
+
+        if (employee.getTeam() != null) {
             this.team = new TeamDTO(employee.getTeam());
+            if (employee.getTeam().getProject() != null)
+                this.project = new ProjectDTO(employee.getTeam().getProject());
+        }
 
         this.isLead = employee.isTeamLead();
         this.position = employee.getPosition();

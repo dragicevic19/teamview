@@ -21,7 +21,7 @@
             <div class="mb-12" *ngIf="isTeamSelected()" style="display: flex; gap: 1rem; align-items: center;">
                 <h4>Selected Team:</h4>
                 <mat-chip-listbox style="cursor: pointer;">
-                    <mat-chip (click)="removeTeam()">{{newProject.team.team}}</mat-chip>
+                    <mat-chip (click)="removeTeam()">{{newProject.team.name}}</mat-chip>
                 </mat-chip-listbox>
             </div>
 

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Employee } from 'src/app/model/Employee';
+import { Team } from 'src/app/model/Team';
+import { TeamService } from 'src/app/service/team.service';
 
-export default interface Team {
+export default interface NewTeam {
   name: string;
-  members: any[];
+  members: Employee[];
   lead: any;
 }
 
@@ -14,7 +18,7 @@ export default interface Team {
 })
 export class NewTeamComponent implements OnInit {
 
-  newTeam: Team = {
+  newTeam: NewTeam = {
     name: '',
     members: [],
     lead: {}
@@ -24,7 +28,10 @@ export class NewTeamComponent implements OnInit {
     return Object.keys(this.newTeam.lead).length !== 0
   }
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(
+    public snackBar: MatSnackBar,
+    private teamService: TeamService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
@@ -34,7 +41,7 @@ export class NewTeamComponent implements OnInit {
   teamLeadSelected(lead: any) {
     if (this.newTeam.lead === lead) {
       this.snackBar.open(lead.name + ' is already selected as Team Lead', 'OK', {
-        duration: 2000
+        duration: 1000
       });
       return;
     }
@@ -51,7 +58,7 @@ export class NewTeamComponent implements OnInit {
   employeeAdded(emp: any) {
     if (this.newTeam.members.includes(emp)) {
       this.snackBar.open(emp.name + ' is already in team', 'OK', {
-        duration: 2000
+        duration: 1000
       });
       return;
     }
@@ -61,12 +68,37 @@ export class NewTeamComponent implements OnInit {
     });
   }
 
+  removeLead() {
+    this.newTeam.lead = {};
+    this.snackBar.open('Team Lead removed!', 'OK', {
+      duration: 1000,
+    });
+  }
+
+  removeMember(member: Employee) {
+    this.newTeam.members = this.newTeam.members.filter((m) => m.id !== member.id);
+    if (this.newTeam.lead.id === member.id) this.newTeam.lead = {};
+  } 
+
   submit() {
-    this.snackBar.open(
-      'Successfully added new team: ' + this.newTeam.name + '!', 'OK', {
-        duration: 2000
-      }
-    )
+    if (!this.newTeam.name || !this.leadSelected()) {
+      this.snackBar.open('Name of the team and team leader are required!', 'OK', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    this.teamService.newTeam(this.newTeam).subscribe({
+      next: (team: Team) => {
+        this.snackBar.open(
+          'Successfully added new team: ' + team.name + '!', 'OK', {
+            duration: 2000
+          }
+        );
+        this.router.navigate(['/teams']);
+      },
+      error: (err) => console.log(err)
+    });
   }
 
 }

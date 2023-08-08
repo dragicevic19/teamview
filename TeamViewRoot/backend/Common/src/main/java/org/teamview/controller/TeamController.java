@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.teamview.dto.EmployeeDTO;
+import org.teamview.dto.NewTeamDTO;
 import org.teamview.dto.PaginationDTO;
 import org.teamview.dto.TeamDTO;
 import org.teamview.service.TeamService;
@@ -26,4 +27,12 @@ public class TeamController {
         PaginationDTO<TeamDTO> retVal = this.teamService.findAll(PageRequest.of(page, rows));
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<?> newTeam(@RequestBody NewTeamDTO newTeam) {
+
+        TeamDTO retVal = this.teamService.newTeam(newTeam);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
 }
