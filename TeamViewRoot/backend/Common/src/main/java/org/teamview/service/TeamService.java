@@ -8,8 +8,10 @@ import org.teamview.dto.EmployeeDTO;
 import org.teamview.dto.NewTeamDTO;
 import org.teamview.dto.PaginationDTO;
 import org.teamview.dto.TeamDTO;
+import org.teamview.exception.NotFoundException;
 import org.teamview.model.Employee;
 import org.teamview.model.Team;
+import org.teamview.repository.EmployeeRepository;
 import org.teamview.repository.TeamRepository;
 
 import java.util.ArrayList;
@@ -19,11 +21,11 @@ import java.util.List;
 public class TeamService {
 
     private final TeamRepository teamRepository;
-    private final EmployeeService employeeService;
+    private final EmployeeRepository employeeRepository;
 
-    public TeamService(TeamRepository teamRepository, EmployeeService employeeService) {
+    public TeamService(TeamRepository teamRepository, EmployeeRepository employeeRepository) {
         this.teamRepository = teamRepository;
-        this.employeeService = employeeService;
+        this.employeeRepository = employeeRepository;
     }
 
     public PaginationDTO<TeamDTO> findAll(PageRequest pageable) {
@@ -44,25 +46,32 @@ public class TeamService {
         team.setName(newTeam.getName());
         List<Employee> members = new ArrayList<>();
 
-        Employee lead = this.employeeService.findById(newTeam.getLead().getId());
+        Employee lead = findEmployeeById(newTeam.getLead().getId());
+        addLead(lead, team, members);
+        addEmployees(newTeam, lead, team, members);
+
+        team.setMembers(members);
+        this.teamRepository.save(team);
+        return new TeamDTO(team);
+    }
+
+    private void addEmployees(NewTeamDTO newTeam, Employee lead, Team team, List<Employee> members) {
+        for (EmployeeDTO emp : newTeam.getMembers()) {
+            if (emp.getId().equals(lead.getId())) continue;
+
+            Employee employee = findEmployeeById(emp.getId());
+            removeEmployeeFromCurrentTeam(employee);
+            employee.setTeam(team);
+            members.add(employee);
+        }
+    }
+
+    private void addLead(Employee lead, Team team, List<Employee> members) {
         removeEmployeeFromCurrentTeam(lead);
         team.setTeamLead(lead);
         lead.setTeamLead(true);
         lead.setTeam(team);
         members.add(lead);
-
-        for (EmployeeDTO emp : newTeam.getMembers()) {
-            if (emp.getId().equals(lead.getId())) continue;
-
-            Employee employee = this.employeeService.findById(emp.getId());
-            removeEmployeeFromCurrentTeam(employee);
-            employee.setTeam(team);
-            members.add(employee);
-        }
-
-        team.setMembers(members);
-        this.teamRepository.save(team);
-        return new TeamDTO(team);
     }
 
     private void removeEmployeeFromCurrentTeam(Employee employee) {
@@ -74,5 +83,10 @@ public class TeamService {
             }
             teamRepository.save(employee.getTeam());
         }
+    }
+
+    private Employee findEmployeeById(Long id) {
+        return this.employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee doesn't exists"));
     }
 }
