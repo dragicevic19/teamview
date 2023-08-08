@@ -60,7 +60,7 @@ export class NewEmployeeComponent implements OnInit {
 
   teamSelected(team: any) {
     if (this.newEmployee.team === team) {
-      this.snackBar.open(team.team + ' is already selected', 'OK', {
+      this.snackBar.open(team.name + ' is already selected', 'OK', {
         duration: 1000
       });
       return;

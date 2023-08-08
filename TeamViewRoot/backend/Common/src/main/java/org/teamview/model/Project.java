@@ -33,7 +33,7 @@ public class Project {
     @Column
     private String client;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
 

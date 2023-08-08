@@ -30,7 +30,7 @@ public class Team {
     private Employee teamLead;
 
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "team")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.PERSIST)
     private Project project;
 
 
