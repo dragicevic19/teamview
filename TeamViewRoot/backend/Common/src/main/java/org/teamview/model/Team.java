@@ -3,9 +3,14 @@ package org.teamview.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 import java.util.Set;
+
+@SQLDelete(sql = "UPDATE team SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 
 @Entity
 @Getter
@@ -33,5 +38,7 @@ public class Team {
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.PERSIST)
     private Project project;
 
+    @Column
+    private boolean deleted = false;
 
 }

@@ -105,4 +105,13 @@ public class TeamService {
         this.teamRepository.save(team);
         return new TeamDTO(team);
     }
+
+    public void deleteTeam(Long id) {
+        Team team = teamRepository.findById(id).orElseThrow(() -> new BadRequestException("Team doesn't exists!"));
+        team.setDeleted(true);
+        if (team.getTeamLead() != null) {
+            team.getTeamLead().setTeamLead(false);
+        }
+        teamRepository.save(team);
+    }
 }

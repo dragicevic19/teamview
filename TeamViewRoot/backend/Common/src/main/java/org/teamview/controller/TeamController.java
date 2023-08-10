@@ -42,4 +42,10 @@ public class TeamController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteTeam(@PathVariable Long id) {
+        this.teamService.deleteTeam(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

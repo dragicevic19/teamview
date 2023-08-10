@@ -97,7 +97,7 @@ export class NewTeamComponent implements OnInit {
       return;
     }
 
-    if (Object.keys(this.editTeam).length) {
+    if (this.editTeam && Object.keys(this.editTeam).length) {
       this.sendEdit();
     }
     else {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Team } from 'src/app/model/Team';
 import { TeamService } from 'src/app/service/team.service';
@@ -22,7 +23,11 @@ export class TeamsComponent implements OnInit {
   page = 0;
   rows = 4;
 
-  constructor(private teamService: TeamService, private router: Router) { }
+  constructor(
+    private teamService: TeamService,
+    private router: Router,
+    public snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.fetchTeams();
@@ -53,14 +58,23 @@ export class TeamsComponent implements OnInit {
     this.teamSelected.emit(row);
   }
 
-  
+
   edit(team: any) {
     localStorage.setItem('editTeam', JSON.stringify(team));
     this.router.navigate(['/teams/edit']);
   }
 
   delete(team: any) {
-    
+    this.teamService.deleteTeam(team).subscribe({
+      next: () => {
+        this.snackBar.open('Successfully removed team: ' + team.name, 'OK', {
+          duration: 2000,
+        });
+      },
+      error: (err) => console.log(err)
+    });
+    window.location.href = window.location.href;
+
   }
 
 }

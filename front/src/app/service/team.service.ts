@@ -25,4 +25,9 @@ export class TeamService {
   editTeam(newTeam: NewTeam, id: number) {
     return this.http.put<Team>(`${this.baseUrl}/${id}`, newTeam); 
   }
+
+  deleteTeam(team: Team) {
+    return this.http.delete<void>(`${this.baseUrl}/${team.id}`);
+  }
+
 }

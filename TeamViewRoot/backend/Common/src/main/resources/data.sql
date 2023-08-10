@@ -1,14 +1,14 @@
-insert into team (name, lead_id)
-values ('Flexies', null);
+insert into team (name, lead_id, deleted)
+values ('Flexies', null, false);
 
-insert into team (name, lead_id)
-values ('Partizans', null);
+insert into team (name, lead_id, deleted)
+values ('Partizans', null, false);
 
-insert into team (name, lead_id)
-values ('NovaS Team', null);
+insert into team (name, lead_id, deleted)
+values ('NovaS Team', null, false);
 
-insert into team (name, lead_id)
-values ('F1 Ferrari', null);
+insert into team (name, lead_id, deleted)
+values ('F1 Ferrari', null, false);
 
 insert into project (client, description, start_date, end_date, status, title, team_id)
 values ('Mathias Lessort', 'Best small project description', '2023-01-14', '2023-09-14', 1, 'Flexy App', 1);
