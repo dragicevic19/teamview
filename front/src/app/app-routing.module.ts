@@ -23,6 +23,7 @@ const routes: Routes = [
       { path: 'people/new', component: NewEmployeeComponent },
       { path: 'teams', component: TeamsComponent },
       { path: 'teams/new', component: NewTeamComponent },
+      { path: 'teams/edit', component: NewTeamComponent },
     ],
   },
   {

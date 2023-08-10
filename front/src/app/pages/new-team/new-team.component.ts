@@ -18,6 +18,7 @@ export default interface NewTeam {
 })
 export class NewTeamComponent implements OnInit {
 
+  editTeam: any = {};
   newTeam: NewTeam = {
     name: '',
     members: [],
@@ -25,7 +26,7 @@ export class NewTeamComponent implements OnInit {
   };
 
   leadSelected() {
-    return Object.keys(this.newTeam.lead).length !== 0
+    return this.newTeam.lead && Object.keys(this.newTeam.lead).length !== 0
   }
 
   constructor(
@@ -35,18 +36,26 @@ export class NewTeamComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.editTeam = JSON.parse(localStorage.getItem('editTeam')!);
+    localStorage.removeItem('editTeam');
+    if (this.editTeam) {
+      this.newTeam.name = this.editTeam.name;
+      this.newTeam.members = this.editTeam.members;
+      this.newTeam.lead = this.editTeam.lead
+      console.log(this.newTeam);
 
+    }
   }
 
   teamLeadSelected(lead: any) {
-    if (this.newTeam.lead === lead) {
+    if (this.newTeam.lead?.id === lead.id) {
       this.snackBar.open(lead.name + ' is already selected as Team Lead', 'OK', {
         duration: 1000
       });
       return;
     }
 
-    if (!this.newTeam.members.includes(lead)) {
+    if (!this.newTeam.members.find((member) => lead.id === member.id)) {
       this.newTeam.members.push(lead);
     }
     this.newTeam.lead = lead;
@@ -56,7 +65,7 @@ export class NewTeamComponent implements OnInit {
   }
 
   employeeAdded(emp: any) {
-    if (this.newTeam.members.includes(emp)) {
+    if (this.newTeam.members.find((member) => emp.id === member.id)) {
       this.snackBar.open(emp.name + ' is already in team', 'OK', {
         duration: 1000
       });
@@ -78,7 +87,7 @@ export class NewTeamComponent implements OnInit {
   removeMember(member: Employee) {
     this.newTeam.members = this.newTeam.members.filter((m) => m.id !== member.id);
     if (this.newTeam.lead.id === member.id) this.newTeam.lead = {};
-  } 
+  }
 
   submit() {
     if (!this.newTeam.name || !this.leadSelected()) {
@@ -88,12 +97,37 @@ export class NewTeamComponent implements OnInit {
       return;
     }
 
+    if (Object.keys(this.editTeam).length) {
+      this.sendEdit();
+    }
+    else {
+      this.sendNewTeam();
+    }
+  }
+
+  sendNewTeam() {
     this.teamService.newTeam(this.newTeam).subscribe({
       next: (team: Team) => {
         this.snackBar.open(
           'Successfully added new team: ' + team.name + '!', 'OK', {
-            duration: 2000
-          }
+          duration: 2000
+        }
+        );
+        this.router.navigate(['/teams']);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  sendEdit() {
+    console.log(this.newTeam);
+
+    this.teamService.editTeam(this.newTeam, this.editTeam.id).subscribe({
+      next: (team: Team) => {
+        this.snackBar.open(
+          'Successfully edited team: ' + team.name + '!', 'OK', {
+          duration: 2000
+        }
         );
         this.router.navigate(['/teams']);
       },

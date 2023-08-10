@@ -16,8 +16,8 @@
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Team Lead </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{ element.lead }}</p>
-                        <p class="mb-0 fw-normal op-5">{{ element.leadsMail }}</p>
+                        <p class="mb-0 fw-medium">{{ element.lead?.name }}</p>
+                        <p class="mb-0 fw-normal op-5">{{ element.lead?.email }}</p>
                     </td>
                 </ng-container>
 
@@ -33,7 +33,7 @@
                 <ng-container matColumnDef="members">
                     <th mat-header-cell *matHeaderCellDef> Members </th>
                     <td mat-cell *matCellDef="let element">
-                        <p class="mb-0 fw-medium">{{element.members}}</p>
+                        <p class="mb-0 fw-medium">{{element.members.length}}</p>
                     </td>
                 </ng-container>
 
@@ -49,7 +49,9 @@
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef> Status </th>
                     <td mat-cell *matCellDef="let element">
-                        <span class="badge {{element.project?.status | projectStatusToBadge}} rounded-pill">{{element.project?.status | projectStatusToString}}</span>
+                        <span
+                            class="badge {{element.project?.status | projectStatusToBadge}} rounded-pill">{{element.project?.status
+                            | projectStatusToString}}</span>
                     </td>
                 </ng-container>
 
@@ -69,8 +71,29 @@
                     </td>
                 </ng-container>
 
+                <!-- Actions Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu1">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu1="matMenu">
+                            <button mat-menu-item (click)="edit(row)">
+                                <mat-icon>edit</mat-icon>
+                                <span>Edit Team</span>
+                            </button>
+                            <button mat-menu-item (click)="delete(row)">
+                                <mat-icon>delete_outline</mat-icon>
+                                <span>Delete Team</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr style="cursor: pointer;" (click)="teamSelection(row)" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr style="cursor: pointer;" (click)="teamSelection(row)" mat-row
+                    *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
             <mat-paginator [length]="totalItems" hidePageSize="true" [pageSize]="rows" (page)="handlePageEvent($event)">

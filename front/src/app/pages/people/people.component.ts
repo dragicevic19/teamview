@@ -57,4 +57,5 @@ export class PeopleComponent implements OnInit {
   employeeSelection(row: any) {
     this.employeeSelected.emit(row);
   }
+
 }

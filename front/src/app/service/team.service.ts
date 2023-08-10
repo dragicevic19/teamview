@@ -9,6 +9,7 @@ import { Team } from '../model/Team';
 })
 export class TeamService {
 
+
   private baseUrl = 'http://localhost:8080/teams';
 
   constructor(private http: HttpClient) { }
@@ -19,5 +20,9 @@ export class TeamService {
 
   newTeam(newTeam: NewTeam) {
     return this.http.post<Team>(this.baseUrl, newTeam); 
+  }
+
+  editTeam(newTeam: NewTeam, id: number) {
+    return this.http.put<Team>(`${this.baseUrl}/${id}`, newTeam); 
   }
 }

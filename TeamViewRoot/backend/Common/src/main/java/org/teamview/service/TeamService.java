@@ -8,6 +8,7 @@ import org.teamview.dto.EmployeeDTO;
 import org.teamview.dto.NewTeamDTO;
 import org.teamview.dto.PaginationDTO;
 import org.teamview.dto.TeamDTO;
+import org.teamview.exception.BadRequestException;
 import org.teamview.exception.NotFoundException;
 import org.teamview.model.Employee;
 import org.teamview.model.Team;
@@ -88,5 +89,20 @@ public class TeamService {
     private Employee findEmployeeById(Long id) {
         return this.employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee doesn't exists"));
+    }
+
+    public TeamDTO editTeam(Long id, NewTeamDTO editTeam) {
+        Team team = teamRepository.findById(id).orElseThrow(() -> new BadRequestException("Team doesn't exists!"));
+
+        team.setName(editTeam.getName());
+        List<Employee> members = new ArrayList<>();
+        Employee lead = findEmployeeById(editTeam.getLead().getId());
+
+        addEmployees(editTeam, lead, team, members);
+        addLead(lead, team, members);
+
+        team.setMembers(members);
+        this.teamRepository.save(team);
+        return new TeamDTO(team);
     }
 }

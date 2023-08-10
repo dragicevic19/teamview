@@ -1,10 +1,7 @@
 package org.teamview.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.teamview.enums.SeniorityLevel;
 
 import java.util.Set;
@@ -13,7 +10,8 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class Employee extends User {
 
     @Column

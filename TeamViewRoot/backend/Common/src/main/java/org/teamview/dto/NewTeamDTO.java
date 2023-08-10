@@ -1,14 +1,13 @@
 package org.teamview.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class NewTeamDTO {
     private String name;
     private List<EmployeeDTO> members;

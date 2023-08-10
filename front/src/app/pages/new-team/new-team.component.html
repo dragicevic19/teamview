@@ -9,7 +9,7 @@
 			<div *ngIf="leadSelected()">
 				<h4>Team Lead</h4>
 				<mat-chip-listbox class="mb-12">
-					<mat-chip (click)="removeLead()">{{newTeam.lead.name}}</mat-chip>
+					<mat-chip (click)="removeLead()">{{newTeam.lead?.name}}</mat-chip>
 				</mat-chip-listbox>
 			</div>
 

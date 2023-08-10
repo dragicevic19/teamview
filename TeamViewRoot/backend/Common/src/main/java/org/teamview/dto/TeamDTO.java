@@ -1,30 +1,33 @@
 package org.teamview.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.teamview.model.Employee;
 import org.teamview.model.Team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class TeamDTO {
     private Long id;
     private String name;
-    private String lead;
-    private String leadsMail;
-    private int members;
+    private EmployeeForTeamDTO lead;
+    private List<EmployeeForTeamDTO> members = new ArrayList<>();
     private ProjectDTO project;
 
     public TeamDTO(Team team) {
         this.id = team.getId();
         this.name = team.getName();
         if (team.getTeamLead() != null) {
-            this.lead = team.getTeamLead().getName() + " " + team.getTeamLead().getLastName();
-            this.leadsMail = team.getTeamLead().getEmail();
+            this.lead = new EmployeeForTeamDTO(team.getTeamLead());
         }
         if (team.getMembers() != null) {
-            this.members = team.getMembers().size();
+            for (Employee emp : team.getMembers()) {
+                this.members.add(new EmployeeForTeamDTO(emp));
+            }
         }
         if (team.getProject() != null)
             this.project = new ProjectDTO(team.getProject());

@@ -35,4 +35,11 @@ public class TeamController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> editTeam(@PathVariable Long id, @RequestBody NewTeamDTO editTeam) {
+
+        TeamDTO retVal = this.teamService.editTeam(id, editTeam);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
 }

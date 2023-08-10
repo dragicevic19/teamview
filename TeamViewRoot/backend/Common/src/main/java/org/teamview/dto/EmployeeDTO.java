@@ -1,13 +1,12 @@
 package org.teamview.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.teamview.model.Employee;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class EmployeeDTO {
     private Long id;
     private String name;

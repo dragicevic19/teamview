@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { Team } from 'src/app/model/Team';
 import { TeamService } from 'src/app/service/team.service';
 
@@ -12,7 +13,7 @@ export class TeamsComponent implements OnInit {
   @Input() selection: boolean = false;
   @Output() teamSelected = new EventEmitter<any>();
 
-  displayedColumns: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate'];
+  displayedColumns: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate', 'action'];
   columnsWithActions: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate', 'actions'];
 
   teams: Team[] = [];
@@ -21,7 +22,7 @@ export class TeamsComponent implements OnInit {
   page = 0;
   rows = 4;
 
-  constructor(private teamService: TeamService) { }
+  constructor(private teamService: TeamService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchTeams();
@@ -50,6 +51,16 @@ export class TeamsComponent implements OnInit {
 
   teamSelection(row: any) {
     this.teamSelected.emit(row);
+  }
+
+  
+  edit(team: any) {
+    localStorage.setItem('editTeam', JSON.stringify(team));
+    this.router.navigate(['/teams/edit']);
+  }
+
+  delete(team: any) {
+    
   }
 
 }
