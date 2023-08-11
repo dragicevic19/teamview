@@ -15,4 +15,6 @@ public class NewProjectDTO {
     private TeamDTO team;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String status;
+
 }

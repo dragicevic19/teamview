@@ -37,8 +37,8 @@
 				<ng-container matColumnDef="name">
 					<th mat-header-cell *matHeaderCellDef> Team Lead </th>
 					<td mat-cell *matCellDef="let element">
-						<p class="mb-0 fw-medium">{{ element.lead }}</p>
-						<p class="mb-0 fw-normal op-5">{{ element.leadsMail }}</p>
+						<p class="mb-0 fw-medium">{{ element.team?.lead?.name }}</p>
+						<p class="mb-0 fw-normal op-5">{{ element.team?.lead?.email }}</p>
 					</td>
 				</ng-container>
 
@@ -46,7 +46,7 @@
 				<ng-container matColumnDef="team">
 					<th mat-header-cell *matHeaderCellDef> Team </th>
 					<td mat-cell *matCellDef="let element">
-						<p class="mb-0 fw-medium">{{ element.team }}</p>
+						<p class="mb-0 fw-medium">{{ element.team?.name }}</p>
 					</td>
 				</ng-container>
 
@@ -75,6 +75,27 @@
 						<p class="mb-0 fw-medium">{{element.endDate | date}}</p>
 					</td>
 				</ng-container>
+
+				
+                <!-- Actions Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu1">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu1="matMenu">
+                            <button mat-menu-item (click)="edit(row)">
+                                <mat-icon>edit</mat-icon>
+                                <span>Edit Project</span>
+                            </button>
+                            <button mat-menu-item (click)="delete(row)">
+                                <mat-icon>delete_outline</mat-icon>
+                                <span>Delete Project</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
 
 				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

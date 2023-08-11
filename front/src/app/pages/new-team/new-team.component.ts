@@ -26,7 +26,7 @@ export class NewTeamComponent implements OnInit {
   };
 
   leadSelected() {
-    return this.newTeam.lead && Object.keys(this.newTeam.lead).length !== 0
+    return this.newTeam.lead && Object.keys(this.newTeam.lead).length
   }
 
   constructor(
@@ -42,8 +42,6 @@ export class NewTeamComponent implements OnInit {
       this.newTeam.name = this.editTeam.name;
       this.newTeam.members = this.editTeam.members;
       this.newTeam.lead = this.editTeam.lead
-      console.log(this.newTeam);
-
     }
   }
 
@@ -120,8 +118,6 @@ export class NewTeamComponent implements OnInit {
   }
 
   sendEdit() {
-    console.log(this.newTeam);
-
     this.teamService.editTeam(this.newTeam, this.editTeam.id).subscribe({
       next: (team: Team) => {
         this.snackBar.open(

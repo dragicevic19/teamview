@@ -12,9 +12,8 @@ import java.time.LocalDate;
 public class ProjectDTO {
     private Long id;
     private String title;
-    private String lead;
-    private String leadsMail;
-    private String team;
+    private String description;
+    private TeamForProjectDTO team;
     private String client;
     private String status;
     private LocalDate startDate;
@@ -23,17 +22,14 @@ public class ProjectDTO {
     public ProjectDTO(Project project) {
         this.id = project.getId();
         this.title = project.getTitle();
+        this.description = project.getDescription();
         this.client = project.getClient();
         this.status = project.getStatus().name();
         this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
 
         if (project.getTeam() != null) {
-            if (project.getTeam().getTeamLead() != null) {
-                this.lead = project.getTeam().getTeamLead().getName() + " " + project.getTeam().getTeamLead().getLastName();
-                this.leadsMail = project.getTeam().getTeamLead().getEmail();
-            }
-            this.team = project.getTeam().getName();
+            this.team = new TeamForProjectDTO(project.getTeam());
         }
     }
 }

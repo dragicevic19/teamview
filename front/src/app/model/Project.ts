@@ -3,9 +3,7 @@ import { Team } from "./Team";
 export interface Project {
     id: number;
     title: string;
-    lead?: string;
-    leadsMail?: string;
-    team?: string;
+    team?: Team;
     client: string;
     status: string;
     startDate: Date;

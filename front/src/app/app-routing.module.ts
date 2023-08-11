@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: 'home', component: DashboardComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'projects/new', component: NewProjectComponent },
+      { path: 'projects/edit', component: NewProjectComponent },
       { path: 'people', component: PeopleComponent },
       { path: 'people/new', component: NewEmployeeComponent },
       { path: 'teams', component: TeamsComponent },

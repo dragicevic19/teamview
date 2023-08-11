@@ -21,7 +21,7 @@
             <div style="display: flex; gap: 1rem;">
                 <mat-form-field appearance="outline">
                     <mat-label>Project Start</mat-label>
-                    <input matInput [matDatepicker]="startPicker" [(ngModel)]="newProject.startDate">
+                    <input matInput [matDatepicker]="startPicker" [(ngModel)]="newProject.startDate" >
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
                     <mat-datepicker #startPicker></mat-datepicker>
@@ -44,8 +44,19 @@
                     </mat-chip-listbox>
                 </div>
                 <div>
-                    <button (click)="submit()" mat-stroked-button
-                        style="width: 100%; background-color: lightskyblue;">Create Project</button>
+                    <div style="display: flex; gap: 1rem; align-items: baseline;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Status</mat-label>
+                            <mat-select [(ngModel)]="newProject.status">
+                                <mat-option *ngFor="let status of projectStatusOptions" [value]="status.value">
+                                    {{status.show}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button (click)="submit()" mat-stroked-button
+                        style="width: 100%; background-color: lightskyblue;">{{editProject ? "Edit Project": 'Create Project'}}</button>
+                    </div>
                 </div>
             </div>
 

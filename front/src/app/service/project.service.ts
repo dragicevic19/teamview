@@ -9,6 +9,7 @@ import { Project } from '../model/Project';
 })
 export class ProjectService {
 
+
   private baseUrl = 'http://localhost:8080/projects';
 
   constructor(private http: HttpClient) { }
@@ -19,5 +20,9 @@ export class ProjectService {
 
   newProject(newProject: NewProject) {
     return this.http.post<Project>(this.baseUrl, newProject);
+  }
+
+  editProject(newProject: NewProject, id: any) {
+    return this.http.put<Project>(`${this.baseUrl}/${id}`, newProject); 
   }
 }
