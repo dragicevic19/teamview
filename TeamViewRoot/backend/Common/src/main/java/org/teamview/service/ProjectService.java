@@ -1,5 +1,6 @@
 package org.teamview.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.teamview.dto.ProjectDTO;
 import org.teamview.enums.ProjectStatus;
 import org.teamview.exception.BadRequestException;
 import org.teamview.exception.NotFoundException;
+import org.teamview.model.Employee;
 import org.teamview.model.Project;
 import org.teamview.model.Team;
 import org.teamview.repository.ProjectRepository;
@@ -96,5 +98,24 @@ public class ProjectService {
         if (team.getProject() != null) team.getProject().setTeam(null);
         project.setTeam(team);
         team.setProject(project);
+        addProjectForEmployeesOfTeam(team, project);
+    }
+
+    private void addProjectForEmployeesOfTeam(Team team, Project project) {
+        for (Employee employee : team.getMembers()) {
+            employee.getPastProjects().add(project);
+        }
+    }
+
+    @Transactional
+    public void deleteProject(Long id) {
+        Project project = projectRepository.findById(id).orElseThrow(() -> new BadRequestException("Project doesn't exists!"));
+        project.setDeleted(true);
+        project.setStatus(ProjectStatus.COMPLETED);
+
+        if (project.getTeam() != null) {
+            project.setTeam(null);
+        }
+        projectRepository.save(project);
     }
 }

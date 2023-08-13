@@ -63,6 +63,9 @@ public class TeamService {
             Employee employee = findEmployeeById(emp.getId());
             removeEmployeeFromCurrentTeam(employee);
             employee.setTeam(team);
+            if (team.getProject() != null) {
+                employee.getPastProjects().add(team.getProject());
+            }
             members.add(employee);
         }
     }

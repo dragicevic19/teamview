@@ -39,4 +39,10 @@ public class ProjectController {
         ProjectDTO retVal = this.projectService.editProject(id, editProject);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteProject(@PathVariable Long id) {
+        this.projectService.deleteProject(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

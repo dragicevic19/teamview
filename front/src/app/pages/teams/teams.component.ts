@@ -58,7 +58,6 @@ export class TeamsComponent implements OnInit {
     this.teamSelected.emit(row);
   }
 
-
   edit(team: any) {
     localStorage.setItem('editTeam', JSON.stringify(team));
     this.router.navigate(['/teams/edit']);

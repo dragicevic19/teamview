@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Project } from 'src/app/model/Project';
 import { ProjectService } from 'src/app/service/project.service';
@@ -19,7 +20,10 @@ export class ProjectsComponent implements OnInit {
   rows = 5;
   totalItems = 0;
 
-  constructor(private projectService: ProjectService, private router: Router) { }
+  constructor(
+    private projectService: ProjectService,
+     private router: Router,
+     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchProjects();
@@ -48,7 +52,15 @@ export class ProjectsComponent implements OnInit {
   }
 
   delete(project: any) {
-    throw new Error('Method not implemented.');
+    this.projectService.deleteProject(project).subscribe({
+      next: () => {
+        this.snackBar.open('Successfully removed project: ' + project.title, 'OK', {
+          duration: 2000,
+        });
+      },
+      error: (err) => console.log(err)
+    });
+    window.location.href = window.location.href;
   }
 
 }

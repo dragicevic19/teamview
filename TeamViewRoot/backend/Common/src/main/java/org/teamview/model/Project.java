@@ -40,4 +40,7 @@ public class Project {
     @Enumerated
     private ProjectStatus status;
 
+    @Column
+    private boolean deleted;
+
 }

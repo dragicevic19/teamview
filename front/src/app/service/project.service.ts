@@ -9,7 +9,6 @@ import { Project } from '../model/Project';
 })
 export class ProjectService {
 
-
   private baseUrl = 'http://localhost:8080/projects';
 
   constructor(private http: HttpClient) { }
@@ -23,6 +22,10 @@ export class ProjectService {
   }
 
   editProject(newProject: NewProject, id: any) {
-    return this.http.put<Project>(`${this.baseUrl}/${id}`, newProject); 
+    return this.http.put<Project>(`${this.baseUrl}/${id}`, newProject);
+  }
+
+  deleteProject(project: any) {
+    return this.http.delete<void>(`${this.baseUrl}/${project.id}`);
   }
 }

@@ -10,17 +10,17 @@ values ('NovaS Team', null, false);
 insert into team (name, lead_id, deleted)
 values ('F1 Ferrari', null, false);
 
-insert into project (client, description, start_date, end_date, status, title, team_id)
-values ('Mathias Lessort', 'Best small project description', '2023-01-14', '2023-09-14', 1, 'Flexy App', 1);
+insert into project (client, description, start_date, end_date, status, title, team_id, deleted)
+values ('Mathias Lessort', 'Best small project description', '2023-01-14', '2023-09-14', 1, 'Flexy App', 1, false);
 
-insert into project (client, description, start_date, end_date, status, title, team_id)
-values ('Aleksa Avramovic', 'Cute little description :)', '2023-09-01', '2024-01-15', 0, 'Partizan App', 2);
+insert into project (client, description, start_date, end_date, status, title, team_id, deleted)
+values ('Aleksa Avramovic', 'Cute little description :)', '2023-09-01', '2024-01-15', 0, 'Partizan App', 2, false);
 
-insert into project (client, description, start_date, end_date, status, title, team_id)
-values ('Ivan Ivanovic', 'Description of project', '2023-11-23', '2024-09-01', 0, 'Vece sa Ivanom', 3);
+insert into project (client, description, start_date, end_date, status, title, team_id, deleted)
+values ('Ivan Ivanovic', 'Description of project', '2023-11-23', '2024-09-01', 0, 'Vece sa Ivanom', 3, false);
 
-insert into project (client, description, start_date, end_date, status, title, team_id)
-values ('Charles Leclerc', 'Ferrari project for F1', '2023-08-21', '2024-08-21', 1, 'Ferrari SF23 F1', 4);
+insert into project (client, description, start_date, end_date, status, title, team_id, deleted)
+values ('Charles Leclerc', 'Ferrari project for F1', '2023-08-21', '2024-08-21', 1, 'Ferrari SF23 F1', 4, false);
 
 insert into users (address, email, last_name, name)
 values ('Vuka Kadardzica 1, Loznica', 'jovanjovic@teamup.com', 'Jovic', 'Jovan');
