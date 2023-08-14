@@ -12,6 +12,7 @@ import { ProjectService } from 'src/app/service/project.service';
 })
 export class ProjectsComponent implements OnInit {
   @Input() dashboard: boolean = false;
+  @Input() allProjects?: Project[];
 
   displayedColumns: string[] = ['project', 'client', 'team', 'name', 'status', 'startDate', 'endDate', 'action'];
   projects: Project[] = [];
@@ -19,6 +20,7 @@ export class ProjectsComponent implements OnInit {
   page = 0;
   rows = 5;
   totalItems = 0;
+  loading = true;
 
   constructor(
     private projectService: ProjectService,
@@ -26,15 +28,22 @@ export class ProjectsComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.fetchProjects();
+    if (this.allProjects !== null && this.allProjects !== undefined) {
+      this.projects = this.allProjects;
+      this.loading = false;
+    }
+    else this.fetchProjects();
 
   }
 
   fetchProjects() {
+    this.loading = true;
+
     this.projectService.fetchProjects(this.rows, this.page).subscribe({
       next: (res) => {
         this.totalItems = res.totalItems;
         this.projects = res.data;
+        this.loading = false;
       },
       error: (err) => {
         console.log(err);

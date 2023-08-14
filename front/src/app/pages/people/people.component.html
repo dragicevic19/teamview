@@ -95,7 +95,7 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" (click)="employeeClicked(row)"></tr>
             </table>
 
             <mat-paginator [length]="totalItems" hidePageSize="true" [pageSize]="rows" (page)="handlePageEvent($event)">

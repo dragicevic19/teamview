@@ -9,5 +9,7 @@ export interface Employee {
     team?: Team;
     position: string;
     seniority: string; 
-    isLead: boolean;
+    lead: boolean;
+    allProjects?: Project[];
+    address: string;
 }

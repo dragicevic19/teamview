@@ -1,0 +1,59 @@
+<mat-card class="w-100">
+	<mat-card-content>
+		<div style="display: flex; justify-content: space-between;">
+
+			<div>
+
+				<div style="display: flex; justify-content: space-between;">
+					<h1 class="mb-24">{{employee.name}}</h1>
+
+				</div>
+
+				<div style="display: flex; flex-direction: column; gap: 1rem;">
+					<div>
+						<h3 class="inline">Address:</h3> <span>{{employee.address}}</span>
+					</div>
+
+					<div>
+						<h3 class="inline">Email: </h3><span>{{employee.email}}</span>
+					</div>
+
+					<div>
+						<h3 class="inline">Current Project: </h3><span>{{employee.project?.title}}</span>
+					</div>
+
+					<div>
+						<h3 class="inline">Team: </h3><span>{{employee.team?.name}}</span>
+					</div>
+
+					<div>
+						<h3 class="inline">Position: </h3><span>{{employee.position}}</span>
+						<span *ngIf="employee.lead" class="badge bg-warning rounded-pill"
+							style="color: black; margin-left: 0.5rem;">Lead</span>
+					</div>
+
+					<div>
+						<h3 class="inline">Seniority: </h3>
+						<span class="badge {{employee.seniority | seniorityToBadge}} rounded-pill">{{ employee.seniority
+							}} </span>
+					</div>
+
+				</div>
+			</div>
+
+			<div>
+				<div>
+					<img src="assets/images/avatar.jpg" class="avatar rounded-3" alt="">
+				</div>
+			</div>
+
+		</div>
+
+	</mat-card-content>
+</mat-card>
+
+<div style="display: flex; gap: 2rem; justify-content: space-between;">
+
+	<!-- All Projects -->
+	<app-projects [allProjects]="employee.allProjects" style="min-width: 80rem; width: max-content;"></app-projects>
+</div>

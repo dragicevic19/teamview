@@ -5,10 +5,14 @@
             <button routerLink="/teams/new" mat-button class="mb-24">Add New Team</button>
         </div>
 
-        <div *ngIf="!teams.length">
+        <div *ngIf="loading">
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </div>
 
+		<div *ngIf="!loading && !teams.length">
+			<p>There is no teams to show</p>
+		</div>
+        
         <div *ngIf="teams.length" class="table-responsive">
             <table mat-table [dataSource]="teams" class="text-nowrap w-100">
 

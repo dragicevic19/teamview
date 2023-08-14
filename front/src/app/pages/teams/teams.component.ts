@@ -22,6 +22,7 @@ export class TeamsComponent implements OnInit {
   totalItems = 0;
   page = 0;
   rows = 4;
+  loading = true;
 
   constructor(
     private teamService: TeamService,
@@ -34,10 +35,12 @@ export class TeamsComponent implements OnInit {
   }
 
   fetchTeams() {
+    this.loading = true;
     this.teamService.fetchTeams(this.rows, this.page).subscribe({
       next: (res) => {
         this.totalItems = res.totalItems;
         this.teams = res.data;
+        this.loading = false;
       },
       error: (err) => {
         console.log(err);

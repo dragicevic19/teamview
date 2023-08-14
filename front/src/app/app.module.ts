@@ -28,6 +28,8 @@ import { ProjectStatusToStringPipe } from './pipes/project-status-to-string.pipe
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { EmployeesOnProjectComponent } from './components/employees-on-project/employees-on-project.component';
 import { ProjectScheduleComponent } from './components/project-schedule/project-schedule.component';
+import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
+import { EmployersProjectsComponent } from './components/employers-projects/employers-projects.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { ProjectScheduleComponent } from './components/project-schedule/project-
     ProjectDetailsComponent,
     EmployeesOnProjectComponent,
     ProjectScheduleComponent,
+    EmployeeDetailsComponent,
+    EmployersProjectsComponent,
   ],
   imports: [
     BrowserModule,

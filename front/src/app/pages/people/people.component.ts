@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { Employee } from 'src/app/model/Employee';
 import { PaginationResponse } from 'src/app/model/PaginationResponse';
 import { UserService } from 'src/app/service/user.service';
@@ -22,18 +23,21 @@ export class PeopleComponent implements OnInit {
   page = 0;
   rows = 4;
   totalItems = 0;
+  loading = true;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchEmployees();
   }
 
   fetchEmployees() {
+    this.loading = true;
     this.userService.fetchEmployees(this.rows, this.page).subscribe({
       next: (res: PaginationResponse) => {
         this.totalItems = res.totalItems;
         this.employees = res.data;
+        this.loading = false;
       },
       error: (err) => {
         console.log(err);
@@ -56,6 +60,13 @@ export class PeopleComponent implements OnInit {
 
   employeeSelection(row: any) {
     this.employeeSelected.emit(row);
+  }
+
+  employeeClicked(employee: Employee) {
+    if (this.selection) return;
+
+    localStorage.setItem('employee', JSON.stringify(employee));
+    this.router.navigate(['/people/' + employee.id]);
   }
 
 }
