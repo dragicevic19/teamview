@@ -1,0 +1,16 @@
+<mat-card style="max-height: 18rem;">
+    <mat-card-content>
+        <h4 class="mb-40">Project Schedule</h4>
+        <div class="d-flex" *ngFor="let schedule of schedule">
+            <p class="fw-bold ps-16 pe-20 fs-12">{{ schedule.time | date}}</p>
+            <div class="activity-border">
+                <div class="deep">
+                    <div class="activity-ring">
+                        <div class="ring {{ schedule.ringColor }}"></div>
+                    </div>
+                </div>
+                <p class="ps-20 pe-16 activity-message">{{ schedule.message }}</p>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

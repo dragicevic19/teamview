@@ -22,11 +22,12 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-     private router: Router,
-     private snackBar: MatSnackBar) { }
+    private router: Router,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchProjects();
+
   }
 
   fetchProjects() {
@@ -46,12 +47,12 @@ export class ProjectsComponent implements OnInit {
     this.fetchProjects();
   }
 
-  edit(project: any) {
+  edit(project: Project) {
     localStorage.setItem('editProject', JSON.stringify(project));
     this.router.navigate(['/projects/edit']);
   }
 
-  delete(project: any) {
+  delete(project: Project) {
     this.projectService.deleteProject(project).subscribe({
       next: () => {
         this.snackBar.open('Successfully removed project: ' + project.title, 'OK', {
@@ -61,6 +62,12 @@ export class ProjectsComponent implements OnInit {
       error: (err) => console.log(err)
     });
     window.location.href = window.location.href;
+  }
+
+
+  details(project: Project) {
+    localStorage.setItem('project', JSON.stringify(project));
+    this.router.navigate(['/projects/' + project.id]);
   }
 
 }

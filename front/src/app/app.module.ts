@@ -25,6 +25,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SeniorityToBadgePipe } from './pipes/seniority-to-badge.pipe';
 import { ProjectStatusToBadgePipe } from './pipes/project-status-to-badge.pipe';
 import { ProjectStatusToStringPipe } from './pipes/project-status-to-string.pipe';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { EmployeesOnProjectComponent } from './components/employees-on-project/employees-on-project.component';
+import { ProjectScheduleComponent } from './components/project-schedule/project-schedule.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import { ProjectStatusToStringPipe } from './pipes/project-status-to-string.pipe
     SeniorityToBadgePipe,
     ProjectStatusToBadgePipe,
     ProjectStatusToStringPipe,
+    ProjectDetailsComponent,
+    EmployeesOnProjectComponent,
+    ProjectScheduleComponent,
   ],
   imports: [
     BrowserModule,
