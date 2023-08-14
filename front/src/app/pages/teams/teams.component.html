@@ -83,6 +83,10 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu1="matMenu">
+                            <button mat-menu-item (click)="details(row)">
+								<mat-icon>search</mat-icon>
+								<span>See Details</span>
+							</button>
                             <button mat-menu-item (click)="edit(row)">
                                 <mat-icon>edit</mat-icon>
                                 <span>Edit Team</span>

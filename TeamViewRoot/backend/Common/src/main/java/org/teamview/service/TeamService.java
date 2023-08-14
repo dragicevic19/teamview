@@ -75,6 +75,9 @@ public class TeamService {
         team.setTeamLead(lead);
         lead.setTeamLead(true);
         lead.setTeam(team);
+        if (team.getProject() != null) {
+            lead.getPastProjects().add(team.getProject());
+        }
         members.add(lead);
     }
 

@@ -11,6 +11,7 @@ import { NewProjectComponent } from './pages/new-project/new-project.component';
 import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
+import { TeamDetailsComponent } from './pages/team-details/team-details.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,8 @@ const routes: Routes = [
       { path: 'teams', component: TeamsComponent },
       { path: 'teams/new', component: NewTeamComponent },
       { path: 'teams/edit', component: NewTeamComponent },
+      { path: 'teams/:id', component: TeamDetailsComponent },
+
     ],
   },
   {

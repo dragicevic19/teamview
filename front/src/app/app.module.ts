@@ -30,6 +30,7 @@ import { EmployeesOnProjectComponent } from './components/employees-on-project/e
 import { ProjectScheduleComponent } from './components/project-schedule/project-schedule.component';
 import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
 import { EmployersProjectsComponent } from './components/employers-projects/employers-projects.component';
+import { TeamDetailsComponent } from './pages/team-details/team-details.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { EmployersProjectsComponent } from './components/employers-projects/empl
     ProjectScheduleComponent,
     EmployeeDetailsComponent,
     EmployersProjectsComponent,
+    TeamDetailsComponent,
   ],
   imports: [
     BrowserModule,

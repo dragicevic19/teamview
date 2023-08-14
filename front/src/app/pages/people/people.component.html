@@ -5,10 +5,13 @@
             <button *ngIf="!selection" routerLink="/people/new" mat-button class="mb-24">Add New Employee</button>
         </div>
 
-        <div *ngIf="!employees.length">
+        <div *ngIf="loading">
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </div>
 
+		<div *ngIf="!loading && !employees.length">
+			<p>There is no employees to show</p>
+		</div>
         <div *ngIf="employees.length" class="table-responsive">
             <table mat-table [dataSource]="employees" class="text-nowrap w-100">
 

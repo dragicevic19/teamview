@@ -79,4 +79,9 @@ export class TeamsComponent implements OnInit {
 
   }
 
+  details(team: Team) {
+    localStorage.setItem('team', JSON.stringify(team));
+    this.router.navigate(['/teams/' + team.id]);
+  }
+
 }
