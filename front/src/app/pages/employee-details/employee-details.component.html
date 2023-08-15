@@ -3,10 +3,8 @@
 		<div style="display: flex; justify-content: space-between;">
 
 			<div>
-
 				<div style="display: flex; justify-content: space-between;">
 					<h1 class="mb-24">{{employee.name}}</h1>
-
 				</div>
 
 				<div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -36,6 +34,11 @@
 						<h3 class="inline">Seniority: </h3>
 						<span class="badge {{employee.seniority | seniorityToBadge}} rounded-pill">{{ employee.seniority
 							}} </span>
+					</div>
+
+					<div style="margin-top: 1rem; display: flex; gap: 1rem;">
+						<button mat-flat-button color="primary" (click)="edit()">Edit</button>
+						<button mat-flat-button color="warn" (click)="delete()">Delete</button>
 					</div>
 
 				</div>

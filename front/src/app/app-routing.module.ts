@@ -26,6 +26,7 @@ const routes: Routes = [
       { path: 'projects/:id', component: ProjectDetailsComponent },
       { path: 'people', component: PeopleComponent },
       { path: 'people/new', component: NewEmployeeComponent },
+      { path: 'people/edit', component: NewEmployeeComponent },
       { path: 'people/:id', component: EmployeeDetailsComponent },
       { path: 'teams', component: TeamsComponent },
       { path: 'teams/new', component: NewTeamComponent },

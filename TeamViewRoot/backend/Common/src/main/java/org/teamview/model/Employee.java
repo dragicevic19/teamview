@@ -2,9 +2,13 @@ package org.teamview.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.teamview.enums.SeniorityLevel;
 
 import java.util.Set;
+
+
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -28,13 +32,7 @@ public class Employee extends User {
     @JoinColumn(name = "team_id")
     private Team team;
 
-//    @OneToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "project_id")
-//    private Project project;
-
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Project> pastProjects;
-
-
 
 }

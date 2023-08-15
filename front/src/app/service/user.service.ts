@@ -21,4 +21,11 @@ export class UserService {
     return this.http.post<Employee>(this.baseUrl, newEmployee);
   }
 
+  editEmployee(newEmployee: NewEmployee, id: number) {
+    return this.http.put<Employee>(`${this.baseUrl}/${id}`, newEmployee); 
+  }
+
+  deleteEmployee(employee: Employee) {
+    return this.http.delete<void>(`${this.baseUrl}/${employee.id}`);
+  }
 }

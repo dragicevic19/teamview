@@ -44,9 +44,9 @@ export class TeamDetailsComponent implements OnInit {
         this.snackBar.open('Successfully removed team: ' + this.team.name, 'OK', {
           duration: 2000,
         });
+        this.router.navigate(['/teams']);
       },
       error: (err) => console.log(err)
     });
-    this.router.navigate(['/teams']);
   }
 }

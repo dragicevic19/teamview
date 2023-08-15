@@ -2,6 +2,8 @@ package org.teamview.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "users")
@@ -10,6 +12,9 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
+
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 
 public class User {
 
@@ -24,5 +29,7 @@ public class User {
     private String address;
     @Column
     private String email;
+    @Column
+    private boolean deleted;
 
 }

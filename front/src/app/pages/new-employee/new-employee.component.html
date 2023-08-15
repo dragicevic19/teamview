@@ -16,7 +16,7 @@
             <div style="display: flex; gap: 1rem;">
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
-                    <input matInput [(ngModel)]="newEmployee.email">
+                    <input matInput [(ngModel)]="newEmployee.email" [disabled]="editEmployee">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -50,7 +50,9 @@
                 </div>
 
                 <div>
-                    <button (click)="submit()" mat-stroked-button style="width: 100%; background-color: lightskyblue;" >Add Employee</button>
+                    <button (click)="submit()" mat-stroked-button
+                        style="width: 100%; background-color: lightskyblue;">{{editEmployee ? "Edit Employee": 'Add Employee'}}</button>
+                    
                 </div>
                 
             </div>

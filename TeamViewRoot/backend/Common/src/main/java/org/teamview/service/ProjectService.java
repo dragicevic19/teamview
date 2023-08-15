@@ -112,10 +112,8 @@ public class ProjectService {
         Project project = projectRepository.findById(id).orElseThrow(() -> new BadRequestException("Project doesn't exists!"));
         project.setDeleted(true);
         project.setStatus(ProjectStatus.COMPLETED);
+        project.setTeam(null);
 
-        if (project.getTeam() != null) {
-            project.setTeam(null);
-        }
         projectRepository.save(project);
     }
 }

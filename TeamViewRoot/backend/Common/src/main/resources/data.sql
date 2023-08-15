@@ -22,20 +22,20 @@ values ('Ivan Ivanovic', 'Description of project', '2023-11-23', '2024-09-01', 0
 insert into project (client, description, start_date, end_date, status, title, team_id, deleted)
 values ('Charles Leclerc', 'Ferrari project for F1', '2023-08-21', '2024-08-21', 1, 'Ferrari SF23 F1', 4, false);
 
-insert into users (address, email, last_name, name)
-values ('Vuka Kadardzica 1, Loznica', 'jovanjovic@teamup.com', 'Jovic', 'Jovan');
+insert into users (address, email, last_name, name, deleted)
+values ('Vuka Kadardzica 1, Loznica', 'jovanjovic@teamup.com', 'Jovic', 'Jovan', false);
 
-insert into users (address, email, last_name, name)
-values ('Pasiceva 2, Novi Sad', 'milutintesla@teamup.com', 'Tesla', 'Milutin');
+insert into users (address, email, last_name, name, deleted)
+values ('Pasiceva 2, Novi Sad', 'milutintesla@teamup.com', 'Tesla', 'Milutin', false);
 
-insert into users (address, email, last_name, name)
-values ('Dunavska 23, Novi Sad', 'ivanjosic@teamup.com', 'Josic', 'Ivan');
+insert into users (address, email, last_name, name, deleted)
+values ('Dunavska 23, Novi Sad', 'ivanjosic@teamup.com', 'Josic', 'Ivan', false);
 
-insert into users (address, email, last_name, name)
-values ('Jevrejska 23, Novi Sad', 'stefanmarkovic@teamup.com', 'Markovic', 'Stefan');
+insert into users (address, email, last_name, name, deleted)
+values ('Jevrejska 23, Novi Sad', 'stefanmarkovic@teamup.com', 'Markovic', 'Stefan', false);
 
-insert into users (address, email, last_name, name)
-values ('Bulvear oslobodjenja 1, Novi Sad', 'markostanic@teamup.com', 'Stanic', 'Marko');
+insert into users (address, email, last_name, name, deleted)
+values ('Bulvear oslobodjenja 1, Novi Sad', 'markostanic@teamup.com', 'Stanic', 'Marko', false);
 
 insert into employee (position, seniority, team_lead, id, team_id)
 values ('React Developer', 0, true, 1, 1);

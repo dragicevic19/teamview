@@ -43,10 +43,9 @@ export class ProjectDetailsComponent implements OnInit {
         this.snackBar.open('Successfully removed project: ' + this.project.title, 'OK', {
           duration: 2000,
         });
+        this.router.navigate(['/projects']);
       },
       error: (err) => console.log(err)
     });
-    window.location.href = window.location.href;
-
   }
 }
