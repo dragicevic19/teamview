@@ -12,6 +12,7 @@ import { NewEmployeeComponent } from './pages/new-employee/new-employee.componen
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
 import { TeamDetailsComponent } from './pages/team-details/team-details.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path:'signup',
+    component: SignupComponent,
+  }
 ];
 
 @NgModule({
