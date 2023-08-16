@@ -7,30 +7,25 @@
 
 		<div *ngIf="!dashboard" style="display: flex; justify-content: space-between;">
 			<h4 class="mb-24">All Projects</h4>
-			<button routerLink="/projects/new" mat-button class="mb-24">New Project</button>
+			<button routerLink="/projects/new" *ngIf="!allProjects" mat-button class="mb-24">New Project</button>
 		</div>
 
-		<div *ngIf="!projects.length">
+		<div *ngIf="loading">
 			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		</div>
 
-		<div *ngIf="projects.length" class="table-responsive">
-			<table mat-table [dataSource]="dataSource" class="text-nowrap w-100">
+		<div *ngIf="!loading && !projects.length">
+			<p>There is no projects to show</p>
+		</div>
 
-				<!-- Project Manager Column -->
-				<ng-container matColumnDef="name">
-					<th mat-header-cell *matHeaderCellDef> Project Manager </th>
-					<td mat-cell *matCellDef="let element">
-						<p class="mb-0 fw-medium">{{ element.name }}</p>
-						<p class="mb-0 fw-normal op-5">{{ element.email }}</p>
-					</td>
-				</ng-container>
+		<div *ngIf="projects.length" class="table-responsive">
+			<table mat-table [dataSource]="projects" class="text-nowrap w-100">
 
 				<!-- Project Column -->
 				<ng-container matColumnDef="project">
 					<th mat-header-cell *matHeaderCellDef> Project </th>
 					<td mat-cell *matCellDef="let element">
-						<p class="mb-0 fw-medium">{{element.project}}</p>
+						<p class="mb-0 fw-medium">{{element.title}}</p>
 					</td>
 				</ng-container>
 
@@ -42,11 +37,30 @@
 					</td>
 				</ng-container>
 
+				<!-- Project Manager Column -->
+				<ng-container matColumnDef="name">
+					<th mat-header-cell *matHeaderCellDef> Team Lead </th>
+					<td mat-cell *matCellDef="let element">
+						<p class="mb-0 fw-medium">{{ element.team?.lead?.name }}</p>
+						<p class="mb-0 fw-normal op-5">{{ element.team?.lead?.email }}</p>
+					</td>
+				</ng-container>
+
+				<!-- Team Column -->
+				<ng-container matColumnDef="team">
+					<th mat-header-cell *matHeaderCellDef> Team </th>
+					<td mat-cell *matCellDef="let element">
+						<p class="mb-0 fw-medium">{{ element.team?.name }}</p>
+					</td>
+				</ng-container>
+
+
 				<!-- Status Column -->
 				<ng-container matColumnDef="status">
 					<th mat-header-cell *matHeaderCellDef> Status </th>
 					<td mat-cell *matCellDef="let element">
-						<span class="badge {{element.badge}} rounded-pill">{{element.status}}</span>
+						<span class="badge {{element.status | projectStatusToBadge}} rounded-pill">{{element.status |
+							projectStatusToString}}</span>
 					</td>
 				</ng-container>
 
@@ -66,12 +80,36 @@
 					</td>
 				</ng-container>
 
+				<!-- Actions Column -->
+				<ng-container matColumnDef="action">
+					<th mat-header-cell *matHeaderCellDef></th>
+					<td mat-cell *matCellDef="let row">
+						<button mat-icon-button [matMenuTriggerFor]="menu1" *ngIf="!allProjects">
+							<mat-icon>more_vert</mat-icon>
+						</button>
+						<mat-menu #menu1="matMenu">
+							<button mat-menu-item (click)="details(row)">
+								<mat-icon>search</mat-icon>
+								<span>See Details</span>
+							</button>
+							<button mat-menu-item (click)="edit(row)">
+								<mat-icon>edit</mat-icon>
+								<span>Edit Project</span>
+							</button>
+							<button mat-menu-item (click)="delete(row)">
+								<mat-icon>delete_outline</mat-icon>
+								<span>Delete Project</span>
+							</button>
+						</mat-menu>
+					</td>
+				</ng-container>
+
 				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 			</table>
 
-			<mat-paginator *ngIf="!dashboard" [length]="100" hidePageSize="true" [pageSize]="rows"
-				aria-label="Select page">
+			<mat-paginator *ngIf="!dashboard && !allProjects" [length]="totalItems" hidePageSize="true" [pageSize]="rows"
+				(page)="handlePageEvent($event)">
 			</mat-paginator>
 		</div>
 

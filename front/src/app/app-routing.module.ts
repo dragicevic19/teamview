@@ -9,6 +9,10 @@ import { TeamsComponent } from './pages/teams/teams.component';
 import { NewTeamComponent } from './pages/new-team/new-team.component';
 import { NewProjectComponent } from './pages/new-project/new-project.component';
 import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
+import { TeamDetailsComponent } from './pages/team-details/team-details.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -19,16 +23,27 @@ const routes: Routes = [
       { path: 'home', component: DashboardComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'projects/new', component: NewProjectComponent },
+      { path: 'projects/edit', component: NewProjectComponent },
+      { path: 'projects/:id', component: ProjectDetailsComponent },
       { path: 'people', component: PeopleComponent },
       { path: 'people/new', component: NewEmployeeComponent },
+      { path: 'people/edit', component: NewEmployeeComponent },
+      { path: 'people/:id', component: EmployeeDetailsComponent },
       { path: 'teams', component: TeamsComponent },
       { path: 'teams/new', component: NewTeamComponent },
+      { path: 'teams/edit', component: NewTeamComponent },
+      { path: 'teams/:id', component: TeamDetailsComponent },
+
     ],
   },
   {
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path:'signup',
+    component: SignupComponent,
+  }
 ];
 
 @NgModule({

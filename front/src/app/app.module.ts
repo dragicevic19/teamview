@@ -21,6 +21,16 @@ import { NewTeamComponent } from './pages/new-team/new-team.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewProjectComponent } from './pages/new-project/new-project.component';
 import { NewEmployeeComponent } from './pages/new-employee/new-employee.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { SeniorityToBadgePipe } from './pipes/seniority-to-badge.pipe';
+import { ProjectStatusToBadgePipe } from './pipes/project-status-to-badge.pipe';
+import { ProjectStatusToStringPipe } from './pipes/project-status-to-string.pipe';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { EmployeesOnProjectComponent } from './components/employees-on-project/employees-on-project.component';
+import { ProjectScheduleComponent } from './components/project-schedule/project-schedule.component';
+import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
+import { EmployersProjectsComponent } from './components/employers-projects/employers-projects.component';
+import { TeamDetailsComponent } from './pages/team-details/team-details.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +47,15 @@ import { NewEmployeeComponent } from './pages/new-employee/new-employee.componen
     NewTeamComponent,
     NewProjectComponent,
     NewEmployeeComponent,
+    SeniorityToBadgePipe,
+    ProjectStatusToBadgePipe,
+    ProjectStatusToStringPipe,
+    ProjectDetailsComponent,
+    EmployeesOnProjectComponent,
+    ProjectScheduleComponent,
+    EmployeeDetailsComponent,
+    EmployersProjectsComponent,
+    TeamDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +66,7 @@ import { NewEmployeeComponent } from './pages/new-employee/new-employee.componen
     NgApexchartsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
 
   ],
   providers: [],

@@ -1,24 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-
-export interface PeriodicElement {
-  name: string;
-  email: string;
-  project: string;
-  team: string;
-  members: number;
-  status: string;
-  badge: string;
-  startDate: Date;
-  endDate: Date;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Deep Javiya', email: 'deepjaviya@teamup.com', project: 'Flexy Angular', status: 'On Hold', badge: 'badge-info', team: 'Felxies', members: 10, startDate: new Date(), endDate: new Date() },
-  { name: 'Nirav Joshi', email: 'niravjoshi@teamup.com', project: 'Hosting Press HTML', status: 'Completed', badge: 'badge-success', team: 'HostingsPro', members: 4, startDate: new Date(), endDate: new Date() },
-  { name: 'Sunil Joshi', email: 'sunil@teamup.com', project: 'Elite Admin', status: 'In Progress', badge: 'badge-primary', team: 'EliteTeam', members: 21, startDate: new Date(), endDate: new Date() },
-  { name: 'Maruti Makwana', email: 'marutimakwana@teamup.com', project: 'Material Pro', status: 'In Progress', badge: 'badge-primary', team: 'Materials', members: 11, startDate: new Date(), endDate: new Date() },
-];
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Team } from 'src/app/model/Team';
+import { TeamService } from 'src/app/service/team.service';
 
 @Component({
   selector: 'app-teams',
@@ -29,22 +14,43 @@ export class TeamsComponent implements OnInit {
   @Input() selection: boolean = false;
   @Output() teamSelected = new EventEmitter<any>();
 
-  displayedColumns: string[] = ['name', 'team', 'members', 'project', 'status', 'startDate', 'endDate'];
-  columnsWithActions: string[] = ['name', 'team', 'members', 'project', 'status', 'startDate', 'endDate', 'actions'];
+  displayedColumns: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate', 'action'];
+  columnsWithActions: string[] = ['team', 'name', 'members', 'project', 'status', 'startDate', 'endDate', 'actions'];
 
-  dataSource = ELEMENT_DATA;
-  teams = ['test'];
+  teams: Team[] = [];
 
+  totalItems = 0;
   page = 0;
   rows = 4;
+  loading = true;
 
-  constructor() { }
+  constructor(
+    private teamService: TeamService,
+    private router: Router,
+    public snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
+    this.fetchTeams();
+  }
+
+  fetchTeams() {
+    this.loading = true;
+    this.teamService.fetchTeams(this.rows, this.page).subscribe({
+      next: (res) => {
+        this.totalItems = res.totalItems;
+        this.teams = res.data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   handlePageEvent(e: PageEvent) {
     this.page = e.pageIndex;
+    this.fetchTeams();
   }
 
   getDisplayedColumns() {
@@ -53,6 +59,29 @@ export class TeamsComponent implements OnInit {
 
   teamSelection(row: any) {
     this.teamSelected.emit(row);
+  }
+
+  edit(team: any) {
+    localStorage.setItem('editTeam', JSON.stringify(team));
+    this.router.navigate(['/teams/edit']);
+  }
+
+  delete(team: any) {
+    this.teamService.deleteTeam(team).subscribe({
+      next: () => {
+        this.snackBar.open('Successfully removed team: ' + team.name, 'OK', {
+          duration: 2000,
+        });
+      },
+      error: (err) => console.log(err)
+    });
+    window.location.href = window.location.href;
+
+  }
+
+  details(team: Team) {
+    localStorage.setItem('team', JSON.stringify(team));
+    this.router.navigate(['/teams/' + team.id]);
   }
 
 }

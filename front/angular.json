@@ -21,6 +21,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
+              "src/aws-pollyfill-like-file.ts",
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
@@ -101,5 +102,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
