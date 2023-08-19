@@ -1,35 +1,62 @@
 package org.teamview.model;
 
-import jakarta.persistence.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.github.f4b6a3.ulid.Ulid;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.teamview.enums.SeniorityLevel;
 
-@Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
+@DynamoDBTable(tableName = "SingleTable")
 
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+public class User extends Item {
 
-public class User {
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
+    private Ulid id; // gsi-sk
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
+    @DynamoDBIndexHashKey(attributeName = "type", globalSecondaryIndexName = "EntityTypeGSI")
+    private String type = "user"; // gsi-pk
+
+    @DynamoDBAttribute
     private String name;
-    @Column
-    private String lastName;
-    @Column
-    private String address;
-    @Column
-    private String email;
-    @Column
-    private boolean deleted;
 
+    @DynamoDBAttribute
+    protected String lastName;
+
+    @DynamoDBAttribute
+    protected String address;
+
+    @DynamoDBAttribute
+    protected String email;
+
+    @DynamoDBAttribute
+    private String teamId;
+
+    @DynamoDBAttribute
+    private String position;
+
+    @DynamoDBAttribute
+    @DynamoDBTypeConvertedEnum
+    private SeniorityLevel seniority;
+
+    @DynamoDBAttribute
+    private boolean teamLead;
+
+    // todo: past projects? json
+
+    @Override
+    @DynamoDBHashKey(attributeName = "PK")
+    public String getPk() {
+        return (teamId != null) ? "TEAM#" + teamId : "NOTEAM";
+    }
+
+    @Override
+    @DynamoDBRangeKey(attributeName = "SK")
+    public String getSk() {
+        return "USER#" + id;
+    }
 }

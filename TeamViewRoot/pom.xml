@@ -20,6 +20,8 @@
     <modules>
         <module>infra</module>
         <module>backend/Common</module>
+        <module>./backend/CognitoPostConfirmationLambda</module>
+
     </modules>
 
 

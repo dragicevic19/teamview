@@ -38,9 +38,7 @@ export class SignupComponent implements OnInit {
         })
     }
     else {
-      this.snackBar.open("Missing email or password", "OK", {
-        duration: 3000
-      });
+      this.displayAlert("Missing email or password")
     }
   }
 
@@ -48,7 +46,7 @@ export class SignupComponent implements OnInit {
     if (this.user) {
       this.cognitoService.confirmSignUp(this.user)
         .then(() => {
-          this.router.navigate(['/sign-in'])
+          this.router.navigate(['/login'])
         })
         .catch((error: any) => {
           this.displayAlert(error.message);
@@ -60,8 +58,8 @@ export class SignupComponent implements OnInit {
   }
 
   private displayAlert(message: string) {
-    this.alertMessage = message;
-    this.showAlert = true;
+    this.snackBar.open(message, "OK", {
+      duration: 5000
+    });
   }
-
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/User';
 import { CognitoService } from 'src/app/service/cognito.service';
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   isForgotPassword: boolean = false;
   newPassword: string = '';
 
-  constructor(private router: Router, private cognitoService: CognitoService) { }
+  constructor(private router: Router, private cognitoService: CognitoService,
+    private snackBar: MatSnackBar) { }
 
 
   ngOnInit(): void {
@@ -53,16 +55,17 @@ export class LoginComponent implements OnInit {
 
     this.cognitoService.setAccessToken(cogUser.signInUserSession.idToken);
     if (cogUser.signInUserSession.idToken.payload['cognito:groups'].includes('EmployeeGroup'))
-      this.router.navigate(['/employee'])
+      this.router.navigate(['/home'])
     else if (cogUser.signInUserSession.idToken.payload['cognito:groups'].includes('EngineeringLeadGroup'))
       this.router.navigate(['/lead'])
     else
-      this.router.navigate(['/admin'])
+      this.router.navigate(['/home'])
   }
 
   private displayAlert(message: string) {
-    this.alertMessage = message;
-    this.showAlert = true;
+    this.snackBar.open(message, "OK", {
+      duration: 3000
+    });
   }
 
   forgotPasswordClicked() {
