@@ -1,46 +1,65 @@
 package org.teamview.model;
 
-import jakarta.persistence.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.github.f4b6a3.ulid.Ulid;
 import lombok.*;
 import org.teamview.enums.ProjectStatus;
+import org.teamview.utils.LocalDateConverter;
 
-import java.time.LocalDate;
+import java.util.Date;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Project {
+@DynamoDBTable(tableName = "SingleTable")
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Project extends Item {
 
-    @Column
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
+    private Ulid id;
+
+    @DynamoDBIndexHashKey(attributeName = "type", globalSecondaryIndexName = "EntityTypeGSI")
+    private String type = "project";
+    @DynamoDBAttribute
     private String title;
 
-    @Column
+    @DynamoDBAttribute
     private String description;
 
-    @Column
-    private LocalDate startDate;
+    @DynamoDBAttribute
+    @DynamoDBTypeConverted(converter = LocalDateConverter.class)
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    private Date startDate;
 
-    @Column
-    private LocalDate endDate;
+    @DynamoDBAttribute
+    @DynamoDBTypeConverted(converter = LocalDateConverter.class)
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    private Date endDate;
 
-    @Column
+    @DynamoDBAttribute
     private String client;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "team_id", referencedColumnName = "id")
-    private Team team;
+//    private Team team;
 
-    @Column
-    @Enumerated
+    @DynamoDBAttribute
+    private String teamId;
+
+    @DynamoDBAttribute
+    @DynamoDBTypeConvertedEnum
     private ProjectStatus status;
 
-    @Column
-    private boolean deleted;
+    @Override
+    @DynamoDBHashKey(attributeName = "PK")
+    public String getPk() {
+        return (teamId != null) ? "TEAM#" + teamId : "NOTEAM";
+    }
+
+    @Override
+    @DynamoDBRangeKey(attributeName = "SK")
+    String getSk() {
+        return "PROJECT#" + id;
+    }
 
 }
