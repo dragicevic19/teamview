@@ -17,7 +17,7 @@ import java.util.Map;
 public class PostConfirmationLambdaHandler implements RequestHandler<CognitoUserPoolPostConfirmationEvent, CognitoUserPoolPostConfirmationEvent> {
 
 
-    private static final String EMPLOYEE_GROUP_NAME = "EmployeeGroup";
+    private static final String EMPLOYEE_GROUP_NAME = "AdminGroup";
     private final CognitoIdentityProviderClient cognitoIdentityProviderClient = CognitoIdentityProviderClient.builder()
             .region(Region.EU_NORTH_1)
             .build();
@@ -31,23 +31,11 @@ public class PostConfirmationLambdaHandler implements RequestHandler<CognitoUser
         Map<String, String> userAttributes = cognitoUserPoolPostConfirmationEvent.getRequest().getUserAttributes();
         addUserToGroup(userAttributes.get("sub"), cognitoUserPoolPostConfirmationEvent.getUserPoolId());
 
-//        Employee employee = new Employee(userAttributes);
-//        employeeRepo.save(employee);
+//        Team team = new Team(UlidCreator.getUlid().toLowerCase(), "TeamFromMapper", "marko@gmail.com");
+//        DynamoBuilder.createBuilder().saveTeamMapper(team);
 
-//        try (Connection conn = DriverManager.getConnection()) {
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-        System.out.println("11111111111111111111111111\n\n");
-
-        Team team = new Team(UlidCreator.getUlid(), "team", "TeamFromLambda", "marko@gmail.com", false);
-        DynamoBuilder.createBuilder().saveTeamMapper(team);
-        System.out.println("2222222222222222222222222\n\n");
-
-        DynamoBuilder.createBuilder().saveTeamClient();
-        System.out.println("3333333333333333333333\n\n");
-
+//        Team team2 = new Team(UlidCreator.getUlid().toLowerCase(), "TeamFromClient", "marko@gmail.com");
+//        DynamoBuilder.createBuilder().saveTeamClient(team2);
 
         return cognitoUserPoolPostConfirmationEvent;
     }

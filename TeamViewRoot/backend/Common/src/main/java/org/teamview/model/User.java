@@ -16,13 +16,13 @@ public class User extends Item {
 
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
-    private Ulid id; // gsi-sk
+    private String id; // gsi-sk
 
-    @DynamoDBIndexHashKey(attributeName = "type", globalSecondaryIndexName = "EntityTypeGSI")
+    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
     private String type = "user"; // gsi-pk
 
     @DynamoDBAttribute
-    private String name;
+    private String firstName;
 
     @DynamoDBAttribute
     protected String lastName;
@@ -50,13 +50,23 @@ public class User extends Item {
 
     @Override
     @DynamoDBHashKey(attributeName = "PK")
-    public String getPk() {
+    public String getPK() {
         return (teamId != null) ? "TEAM#" + teamId : "NOTEAM";
     }
 
     @Override
     @DynamoDBRangeKey(attributeName = "SK")
-    public String getSk() {
+    public String getSK() {
         return "USER#" + id;
+    }
+
+    @Override
+    void setPK(String pk) {
+        this.PK = pk;
+    }
+
+    @Override
+    void setSK(String sk) {
+        this.SK = sk;
     }
 }

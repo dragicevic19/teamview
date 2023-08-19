@@ -3,27 +3,30 @@ import { Injectable } from '@angular/core';
 import { PaginationResponse } from '../model/PaginationResponse';
 import NewTeam from '../pages/new-team/new-team.component';
 import { Team } from '../model/Team';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
 
+  private localUrl = 'http://localhost:8080/teams';
+  private awsUrl = environment.apiPath + 'teams';
 
-  private baseUrl = 'http://localhost:8080/teams';
+  private baseUrl = (environment.localhost) ? this.localUrl : this.awsUrl;
 
   constructor(private http: HttpClient) { }
 
   fetchTeams(rows: number, page: number) {
-    return this.http.get<PaginationResponse>(`${this.baseUrl}/${page}/${rows}`);
+    return this.http.get<PaginationResponse>(`${this.baseUrl}`);
   }
 
   newTeam(newTeam: NewTeam) {
-    return this.http.post<Team>(this.baseUrl, newTeam); 
+    return this.http.post<Team>(this.baseUrl, newTeam);
   }
 
   editTeam(newTeam: NewTeam, id: number) {
-    return this.http.put<Team>(`${this.baseUrl}/${id}`, newTeam); 
+    return this.http.put<Team>(`${this.baseUrl}/${id}`, newTeam);
   }
 
   deleteTeam(team: Team) {

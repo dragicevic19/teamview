@@ -1,6 +1,7 @@
 package com.myorg;
 
 import software.amazon.awscdk.*;
+import software.amazon.awscdk.services.apigateway.*;
 import software.amazon.awscdk.services.cognito.*;
 import software.amazon.awscdk.services.dynamodb.*;
 import software.amazon.awscdk.services.iam.PolicyStatement;
@@ -30,6 +31,56 @@ public class InfraStack extends Stack {
 
         UserPool userPool = buildUserPool(cognitoPostConfirmationLambda);
 
+        Function getTeamsLambda = createLambdaFunction("GetTeamsLambda", 1024);
+        singleTable.grantReadWriteData(getTeamsLambda);
+
+        RestApi api = buildApiGateway();
+
+        api.getRoot()
+                .addResource("teams")
+                .addMethod("GET", new LambdaIntegration(getTeamsLambda));
+//                        MethodOptions.builder()
+//                                .authorizationType(AuthorizationType.CUSTOM)
+//                                .authorizer(customAuthorizer)
+//                                .build());
+
+    }
+
+    private RestApi buildApiGateway() {
+        return RestApi.Builder.create(this, "MyRestApi")
+                .description("This is REST API")
+                .defaultCorsPreflightOptions(CorsOptions.builder()
+                        .allowCredentials(true)
+                        .allowOrigins(singletonList("*")).build())
+                .build();
+
+// Deploy the REST API to a stage
+//        Deployment deployment = Deployment.Builder.create(this, "MyDeployment")
+//                .api(api)
+//                .description("Initial deployment")
+//                .build();
+//
+//        Stage stage = Stage.Builder.create(this, "MyStage")
+//                .deployment(deployment)
+//                .stageName("testStage")
+//                .build();
+    }
+
+    private Function createLambdaFunction(String name, Integer memorySize) {
+
+        Function func = Function.Builder.create(this, name)
+                .handler("org.example.StreamLambdaHandler")
+                .runtime(Runtime.JAVA_17)
+                .memorySize(memorySize)
+                .timeout(Duration.seconds(20))
+                .code(Code.fromAsset("../assets/" + name + ".jar"))
+                .build();
+
+        // Enable Snapstart
+        CfnFunction cfnGetFunction = (CfnFunction) func.getNode().getDefaultChild();
+        cfnGetFunction.addPropertyOverride("SnapStart", Map.of("ApplyOn", "PublishedVersions"));
+
+        return func;
     }
 
     private Table buildSingleTable() {
@@ -53,7 +104,7 @@ public class InfraStack extends Stack {
         GlobalSecondaryIndexProps gsi = GlobalSecondaryIndexProps.builder()
                 .indexName("EntityTypeGSI")
                 .partitionKey(Attribute.builder()
-                        .name("type")
+                        .name("itemType")
                         .type(AttributeType.STRING)
                         .build())
                 .sortKey(Attribute.builder()
@@ -65,7 +116,7 @@ public class InfraStack extends Stack {
                 .writeCapacity(1)
                 .build();
 
-        Table table = new Table(this, "singleTable", tableProps);
+        Table table = new Table(this, "SingleTable", tableProps);
         table.addGlobalSecondaryIndex(gsi);
 
         return table;

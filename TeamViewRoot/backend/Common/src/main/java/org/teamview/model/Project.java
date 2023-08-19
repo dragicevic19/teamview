@@ -1,7 +1,6 @@
 package org.teamview.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.github.f4b6a3.ulid.Ulid;
 import lombok.*;
 import org.teamview.enums.ProjectStatus;
 import org.teamview.utils.LocalDateConverter;
@@ -18,9 +17,9 @@ public class Project extends Item {
 
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
-    private Ulid id;
+    private String id;
 
-    @DynamoDBIndexHashKey(attributeName = "type", globalSecondaryIndexName = "EntityTypeGSI")
+    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
     private String type = "project";
     @DynamoDBAttribute
     private String title;
@@ -48,18 +47,27 @@ public class Project extends Item {
 
     @DynamoDBAttribute
     @DynamoDBTypeConvertedEnum
-    private ProjectStatus status;
+    private ProjectStatus projectStatus;
 
     @Override
     @DynamoDBHashKey(attributeName = "PK")
-    public String getPk() {
+    public String getPK() {
         return (teamId != null) ? "TEAM#" + teamId : "NOTEAM";
     }
 
     @Override
     @DynamoDBRangeKey(attributeName = "SK")
-    String getSk() {
+    String getSK() {
         return "PROJECT#" + id;
     }
 
+    @Override
+    void setPK(String pk) {
+        this.PK = pk;
+    }
+
+    @Override
+    void setSK(String sk) {
+        this.SK = sk;
+    }
 }
