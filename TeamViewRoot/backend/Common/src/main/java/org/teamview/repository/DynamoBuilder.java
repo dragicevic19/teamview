@@ -18,13 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 public class DynamoBuilder {
-
     private static final String TABLE_NAME = "SingleTable";
     private static final String REGION = "eu-north-1";
-
     private final DynamoDBMapper mapper;
     private final AmazonDynamoDB client;
-
     private static DynamoBuilder instance = null;
 
     private DynamoBuilder(DynamoDBMapperConfig config, AmazonDynamoDB client) {
@@ -38,37 +35,23 @@ public class DynamoBuilder {
                 .standard()
                 .withRegion(REGION)
                 .build();
-
         DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder().build();
         instance = new DynamoBuilder(mapperConfig, client);
         return instance;
     }
 
-    public void saveTeamClient(Team team) {
-        Map<String, AttributeValue> attrs = new HashMap<>();
-        attrs.put("PK", new AttributeValue(team.getPK()));
-        attrs.put("SK", new AttributeValue(team.getSK()));
-        attrs.put("id", new AttributeValue(String.valueOf(team.getId())));
-        attrs.put("teamName", new AttributeValue(team.getTeamName()));
-        attrs.put("itemType", new AttributeValue(team.getType()));
-//        attrs.put("teamLead", new AttributeValue(team.getTeamLead()));
-//        attrs.put("deleted", new AttributeValue(String.valueOf(true)));
+    // GET ALL
+    public List<User> getAllUsers() {
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":t", new AttributeValue().withS("user"));
 
-        try {
-            client.putItem(TABLE_NAME, attrs);
-        } catch (ResourceNotFoundException e) {
-            System.err.format("Error: The table \"%s\" can't be found.\n", TABLE_NAME);
-        } catch (AmazonServiceException e) {
-            System.err.println(e.getMessage());
-        }
-    }
+        DynamoDBQueryExpression<User> queryExpression = new DynamoDBQueryExpression<User>()
+                .withIndexName("EntityTypeGSI")
+                .withKeyConditionExpression("itemType = :t")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
 
-    public void saveTeamMapper(Team team) {
-        mapper.save(team);
-    }
-
-    public List<Item> getAll() {
-        return mapper.scan(Item.class, new DynamoDBScanExpression());
+        return mapper.query(User.class, queryExpression);
     }
 
     public List<Team> getAllTeams() {
@@ -84,6 +67,21 @@ public class DynamoBuilder {
         return mapper.query(Team.class, queryExpression);
     }
 
+    public List<Project> getAllProjects() {
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":t", new AttributeValue().withS("project"));
+
+        DynamoDBQueryExpression<Project> queryExpression = new DynamoDBQueryExpression<Project>()
+                .withIndexName("EntityTypeGSI")
+                .withKeyConditionExpression("itemType = :t")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        return mapper.query(Project.class, queryExpression);
+    }
+
+
+    // GET ONE
     public User getUser(String userId, String teamId) {
         User user = null;
         String pk = (teamId == null) ? "NOTEAM" : "TEAM#" + teamId;
@@ -124,50 +122,8 @@ public class DynamoBuilder {
         return team;
     }
 
-    public void deleteUser(User user) {
-        mapper.delete(user);
-    }
 
-    public void saveUser(User user) {
-        mapper.save(user);
-    }
-
-    public void saveTeam(Team team) {
-        mapper.save(team);
-    }
-
-    public List<User> getAllUsers() {
-        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-        expressionAttributeValues.put(":t", new AttributeValue().withS("user"));
-
-        DynamoDBQueryExpression<User> queryExpression = new DynamoDBQueryExpression<User>()
-                .withIndexName("EntityTypeGSI")
-                .withKeyConditionExpression("itemType = :t")
-                .withExpressionAttributeValues(expressionAttributeValues)
-                .withConsistentRead(false);
-
-        return mapper.query(User.class, queryExpression);
-    }
-
-    public Project getProjectForTeam(String teamId) {
-        Project project = null;
-
-        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
-        expressionAttributeValues.put(":sk", new AttributeValue().withS("PROJECT"));
-
-        DynamoDBQueryExpression<Project> queryExpression = new DynamoDBQueryExpression<Project>()
-                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
-                .withExpressionAttributeValues(expressionAttributeValues)
-                .withConsistentRead(false);
-
-        PaginatedQueryList<Project> result = this.mapper.query(Project.class, queryExpression);
-        if (!result.isEmpty()) {
-            project = result.get(0);
-        }
-        return project;
-    }
-
+    // QUERY
     public List<User> getMembersOfTheTeam(String teamId) {
 
         Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
@@ -181,4 +137,62 @@ public class DynamoBuilder {
 
         return mapper.query(User.class, queryExpression);
     }
+
+    public Project getProjectForTeam(String teamId) {
+        Project project = null;
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS("PROJECT"));
+
+        DynamoDBQueryExpression<Project> queryExpression = new DynamoDBQueryExpression<Project>()
+                .withKeyConditionExpression("(PK = :pk) AND begins_with(SK, :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        PaginatedQueryList<Project> result = this.mapper.query(Project.class, queryExpression);
+        if (!result.isEmpty()) {
+            project = result.get(0);
+        }
+        return project;
+    }
+
+
+    // SAVE
+    public void saveUser(User user) {
+        mapper.save(user);
+    }
+
+    public void saveTeam(Team team) {
+        mapper.save(team);
+    }
+
+    public void saveProject(Project project) {
+        mapper.save(project);
+    }
+
+    // DELETE
+    public void deleteUser(User user) {
+        mapper.delete(user);
+    }
+
+
 }
+//    public void saveTeamClient(Team team) {
+//        Map<String, AttributeValue> attrs = new HashMap<>();
+//        attrs.put("PK", new AttributeValue(team.getPK()));
+//        attrs.put("SK", new AttributeValue(team.getSK()));
+//        attrs.put("id", new AttributeValue(String.valueOf(team.getId())));
+//        attrs.put("teamName", new AttributeValue(team.getTeamName()));
+//        attrs.put("itemType", new AttributeValue(team.getType()));
+////        attrs.put("teamLead", new AttributeValue(team.getTeamLead()));
+////        attrs.put("deleted", new AttributeValue(String.valueOf(true)));
+//
+//        try {
+//            client.putItem(TABLE_NAME, attrs);
+//        } catch (ResourceNotFoundException e) {
+//            System.err.format("Error: The table \"%s\" can't be found.\n", TABLE_NAME);
+//        } catch (AmazonServiceException e) {
+//            System.err.println(e.getMessage());
+//        }
+//    }

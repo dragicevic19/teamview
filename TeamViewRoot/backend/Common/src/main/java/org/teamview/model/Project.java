@@ -16,11 +16,9 @@ public class Project extends Item {
     private String type = "project";
     private String title;
     private String description;
-
     private Date startDate;
     private Date endDate;
     private String client;
-
     private String teamId;
     private ProjectStatus projectStatus;
 
@@ -33,7 +31,7 @@ public class Project extends Item {
     @Override
     @DynamoDBRangeKey(attributeName = "SK")
     public String getSK() {
-        return "PROJECT";
+        return "PROJECT#" + id;
     }
 
     @Override

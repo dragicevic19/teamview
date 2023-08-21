@@ -41,8 +41,8 @@ export class ProjectsComponent implements OnInit {
 
     this.projectService.fetchProjects(this.rows, this.page).subscribe({
       next: (res) => {
-        this.totalItems = res.totalItems;
-        this.projects = res.data;
+        // this.totalItems = res.totalItems;
+        this.projects = res;
         this.loading = false;
       },
       error: (err) => {

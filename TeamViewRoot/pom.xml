@@ -25,6 +25,9 @@
         <module>./backend/Teams/NewTeamLambda</module>
         <module>./backend/Employees/GetEmployeesLambda</module>
         <module>./backend/Employees/NewEmployeeLambda</module>
+        <module>./backend/Projects/GetProjectsLambda</module>
+        <module>./backend/Projects/NewProjectLambda</module>
+
     </modules>
 
     <properties>

@@ -100,7 +100,7 @@ export class NewProjectComponent implements OnInit {
 
   sendNewProject() {
     this.projectService.newProject(this.newProject).subscribe({
-      next: (res) => {
+      next: () => {
         this.snackBar.open(
           'Successfully added new project: ' + this.newProject.title + '!', 'OK', {
           duration: 2000
@@ -113,7 +113,7 @@ export class NewProjectComponent implements OnInit {
 
   sendEdit() {
     this.projectService.editProject(this.newProject, this.editProject.id).subscribe({
-      next: (res) => {
+      next: () => {
         this.snackBar.open(
           'Successfully edited project: ' + this.newProject.title + '!', 'OK', {
           duration: 2000
@@ -126,7 +126,7 @@ export class NewProjectComponent implements OnInit {
 
   validate() {
     return !this.newProject.title || !this.newProject.client || !this.newProject.description
-      || !this.newProject.startDate || !this.newProject.endDate;
+      || !this.newProject.startDate || !this.newProject.endDate || !this.newProject.status;
   }
 
 

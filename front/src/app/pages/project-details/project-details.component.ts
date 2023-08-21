@@ -30,6 +30,11 @@ export class ProjectDetailsComponent implements OnInit {
       this.members = this.project.team.members;
     }
     else this.members = [];
+
+    console.log(this.members);
+    console.log(this.project);
+    
+    
   }
 
   edit() {
