@@ -24,10 +24,8 @@
         <module>./backend/Teams/GetTeamsLambda</module>
         <module>./backend/Teams/NewTeamLambda</module>
         <module>./backend/Employees/GetEmployeesLambda</module>
-
-
+        <module>./backend/Employees/NewEmployeeLambda</module>
     </modules>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

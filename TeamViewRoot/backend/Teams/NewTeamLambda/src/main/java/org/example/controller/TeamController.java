@@ -13,7 +13,6 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 public class TeamController {
-
     private final TeamService teamService;
 
     public TeamController(TeamService teamService) {

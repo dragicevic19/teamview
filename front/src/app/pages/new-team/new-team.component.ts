@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/model/Employee';
-import { Team } from 'src/app/model/Team';
 import { TeamService } from 'src/app/service/team.service';
 
 export default interface NewTeam {
@@ -106,9 +105,9 @@ export class NewTeamComponent implements OnInit {
 
   sendNewTeam() {
     this.teamService.newTeam(this.newTeam).subscribe({
-      next: (team: Team) => {
+      next: () => {
         this.snackBar.open(
-          'Successfully added new team: ' + team.name + '!', 'OK', {
+          'Successfully added new team: ' + this.newTeam.name + '!', 'OK', {
           duration: 2000
         });
         this.router.navigate(['/teams']);
@@ -119,9 +118,9 @@ export class NewTeamComponent implements OnInit {
 
   sendEdit() {
     this.teamService.editTeam(this.newTeam, this.editTeam.id).subscribe({
-      next: (team: Team) => {
+      next: () => {
         this.snackBar.open(
-          'Successfully edited team: ' + team.name + '!', 'OK', {
+          'Successfully edited team: ' + this.newTeam.name + '!', 'OK', {
           duration: 2000
         }
         );

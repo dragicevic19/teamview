@@ -6,6 +6,8 @@
     <file url="file://$PROJECT_DIR$/backend/Common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/Employees/GetEmployeesLambda/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/Employees/GetEmployeesLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/NewEmployeeLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/NewEmployeeLambda/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/Teams/GetTeamsLambda/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/Teams/GetTeamsLambda/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/Teams/NewTeamLambda/src/main/java" charset="UTF-8" />

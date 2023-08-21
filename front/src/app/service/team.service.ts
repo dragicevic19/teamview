@@ -22,11 +22,11 @@ export class TeamService {
   }
 
   newTeam(newTeam: NewTeam) {
-    return this.http.post<Team>(this.baseUrl, newTeam);
+    return this.http.post<void>(this.baseUrl, newTeam);
   }
 
   editTeam(newTeam: NewTeam, id: number) {
-    return this.http.put<Team>(`${this.baseUrl}/${id}`, newTeam);
+    return this.http.put<void>(`${this.baseUrl}/${id}`, newTeam);
   }
 
   deleteTeam(team: Team) {

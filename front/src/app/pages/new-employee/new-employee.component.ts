@@ -103,7 +103,7 @@ export class NewEmployeeComponent implements OnInit {
 
   sendEdit() {
     this.userService.editEmployee(this.newEmployee, this.editEmployee.id).subscribe({
-      next: (res: Employee) => {
+      next: () => {
         this.snackBar.open(
           'Successfully edited employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
           duration: 2000
@@ -116,7 +116,7 @@ export class NewEmployeeComponent implements OnInit {
 
   sendNewEmployee() {
     this.userService.newEmployee(this.newEmployee).subscribe({
-      next: (res: Employee) => {
+      next: () => {
         this.snackBar.open(
           'Successfully added new employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
           duration: 2000
