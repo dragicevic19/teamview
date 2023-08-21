@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.teamview.dto.NewEmployeeDTO;
-import org.teamview.dto.NewTeamDTO;
 
 @RestController
 @CrossOrigin
@@ -22,7 +21,10 @@ public class NewEmployeeController {
             consumes = "application/json"
     )
     public ResponseEntity<?> createNewEmployee(@RequestBody NewEmployeeDTO newEmployee) {
-        employeeService.newEmployee(newEmployee);
+        if (newEmployee.getId() == null)
+            employeeService.newEmployee(newEmployee);
+        else
+            employeeService.editEmployee(newEmployee);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

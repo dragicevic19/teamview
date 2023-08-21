@@ -43,9 +43,6 @@ public class ProjectService {
 
         updateTeamForProject(newProject, repo, project);
 
-        System.out.println("NEW TEAM ID");
-        System.out.println(project.getTeamId());
-
         project.setTitle(newProject.getTitle());
         project.setClient(newProject.getClient());
         project.setProjectStatus(ProjectStatus.valueOf(newProject.getStatus()));

@@ -5,6 +5,7 @@ import { Employee } from 'src/app/model/Employee';
 import { TeamService } from 'src/app/service/team.service';
 
 export default interface NewTeam {
+  id?: string;
   name: string;
   members: Employee[];
   lead: any;
@@ -40,7 +41,8 @@ export class NewTeamComponent implements OnInit {
     if (this.editTeam) {
       this.newTeam.name = this.editTeam.name;
       this.newTeam.members = this.editTeam.members;
-      this.newTeam.lead = this.editTeam.lead
+      this.newTeam.lead = this.editTeam.lead;
+      this.newTeam.id = this.editTeam.id;
     }
   }
 
@@ -94,20 +96,23 @@ export class NewTeamComponent implements OnInit {
       });
       return;
     }
+    this.sendNewTeam();
 
-    if (this.editTeam && Object.keys(this.editTeam).length) {
-      this.sendEdit();
-    }
-    else {
-      this.sendNewTeam();
-    }
+    // if (this.editTeam && Object.keys(this.editTeam).length) {
+    //   this.sendEdit();
+    // }
+    // else {
+    //   this.sendNewTeam();
+    // }
   }
 
   sendNewTeam() {
     this.teamService.newTeam(this.newTeam).subscribe({
       next: () => {
+        const message = (this.editTeam && Object.keys(this.editTeam).length) ?
+          "edited" : "added new";
         this.snackBar.open(
-          'Successfully added new team: ' + this.newTeam.name + '!', 'OK', {
+          'Successfully ' + message + ' team: ' + this.newTeam.name + '!', 'OK', {
           duration: 2000
         });
         this.router.navigate(['/teams']);
@@ -122,8 +127,7 @@ export class NewTeamComponent implements OnInit {
         this.snackBar.open(
           'Successfully edited team: ' + this.newTeam.name + '!', 'OK', {
           duration: 2000
-        }
-        );
+        });
         this.router.navigate(['/teams']);
       },
       error: (err) => console.log(err)

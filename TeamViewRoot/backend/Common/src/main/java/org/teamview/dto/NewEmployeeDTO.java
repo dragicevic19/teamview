@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewEmployeeDTO {
+    private String id;
     private String name;
     private String lastName;
     private String position;
@@ -14,4 +15,5 @@ public class NewEmployeeDTO {
     private String address;
     private String email;
     private TeamDTO team;
+    private String prevTeamId;
 }

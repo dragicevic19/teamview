@@ -25,8 +25,10 @@ public class TeamController {
             consumes = "application/json"
     )
     public ResponseEntity<?> createNewTeam(@RequestBody NewTeamDTO newTeam) {
-
-        teamService.newTeam(newTeam);
+        if (newTeam.getId() == null)
+            teamService.newTeam(newTeam);
+        else
+            teamService.editTeam(newTeam);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
