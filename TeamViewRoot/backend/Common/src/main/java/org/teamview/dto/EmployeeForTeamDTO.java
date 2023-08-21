@@ -22,6 +22,6 @@ public class EmployeeForTeamDTO {
         this.email = employee.getEmail();
         this.seniority = employee.getSeniority().name().charAt(0) + employee.getSeniority().name().substring(1).toLowerCase();
         this.position = employee.getPosition();
-        this.lead = employee.isTeamLead();
+        this.lead = employee.getTeamLead();
     }
 }

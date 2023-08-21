@@ -7,43 +7,18 @@ import org.teamview.enums.SeniorityLevel;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
 @DynamoDBTable(tableName = "SingleTable")
-
 public class User extends Item {
 
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
     private String id; // gsi-sk
-
-    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
     private String type = "user"; // gsi-pk
-
-    @DynamoDBAttribute
     private String firstName;
-
-    @DynamoDBAttribute
-    protected String lastName;
-
-    @DynamoDBAttribute
-    protected String address;
-
-    @DynamoDBAttribute
-    protected String email;
-
-    @DynamoDBAttribute
+    private String lastName;
+    private String address;
+    private String email;
     private String teamId;
-
-    @DynamoDBAttribute
     private String position;
-
-    @DynamoDBAttribute
-    @DynamoDBTypeConvertedEnum
     private SeniorityLevel seniority;
-
-    @DynamoDBAttribute
     private boolean teamLead;
 
     // todo: past projects? json
@@ -60,13 +35,103 @@ public class User extends Item {
         return "USER#" + id;
     }
 
-    @Override
-    void setPK(String pk) {
-        this.PK = pk;
+    public void setPK(String PK) {
+        this.PK = PK;
     }
 
-    @Override
-    void setSK(String sk) {
-        this.SK = sk;
+    public void setSK(String SK) {
+        this.SK = SK;
+    }
+
+    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @DynamoDBAttribute
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @DynamoDBAttribute
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @DynamoDBAttribute
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @DynamoDBAttribute
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @DynamoDBAttribute
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    @DynamoDBAttribute
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    @DynamoDBTypeConvertedEnum
+    @DynamoDBAttribute
+    public SeniorityLevel getSeniority() {
+        return seniority;
+    }
+
+    public void setSeniority(SeniorityLevel seniority) {
+        this.seniority = seniority;
+    }
+
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
+    @DynamoDBAttribute
+    public boolean getTeamLead() {
+        return teamLead;
+    }
+
+    public void setTeamLead(boolean teamLead) {
+        this.teamLead = teamLead;
     }
 }

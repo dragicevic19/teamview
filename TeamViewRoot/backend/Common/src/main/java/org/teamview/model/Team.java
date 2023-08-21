@@ -7,18 +7,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBTable(tableName = "SingleTable")
-
 public class Team extends Item {
 
     private String id;
-
     private String type = "team";
-
     private String teamName;
-
-    private User teamLead;         // todo: ?
-
-    private boolean deleted = false; // todo: ?
+    private User teamLead;
 
     public Team(String id, String teamName, User teamLead) {
         this.id = id;
@@ -52,6 +46,7 @@ public class Team extends Item {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
+
     @DynamoDBTypeConvertedJson
     @DynamoDBAttribute
     public User getTeamLead() {
@@ -60,17 +55,6 @@ public class Team extends Item {
 
     public void setTeamLead(User teamLead) {
         this.teamLead = teamLead;
-    }
-
-
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
-    @DynamoDBAttribute
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     @Override

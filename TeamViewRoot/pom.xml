@@ -21,7 +21,10 @@
         <module>infra</module>
         <module>backend/Common</module>
         <module>./backend/CognitoPostConfirmationLambda</module>
-        <module>./backend/GetTeamsLambda</module>
+        <module>./backend/Teams/GetTeamsLambda</module>
+        <module>./backend/Teams/NewTeamLambda</module>
+        <module>./backend/Employees/GetEmployeesLambda</module>
+
 
     </modules>
 

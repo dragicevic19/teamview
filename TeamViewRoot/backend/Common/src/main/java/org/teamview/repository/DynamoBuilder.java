@@ -3,14 +3,15 @@ package org.teamview.repository;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import org.teamview.model.Item;
+import org.teamview.model.Project;
 import org.teamview.model.Team;
+import org.teamview.model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,4 +84,85 @@ public class DynamoBuilder {
         return mapper.query(Team.class, queryExpression);
     }
 
+    public User getUser(String userId, String teamId) {
+        String pk = (teamId == null) ? "NOTEAM" : "TEAM#" + teamId;
+        return mapper.load(User.class, pk, "USER#" + userId);
+    }
+
+    public void deleteUser(User user) {
+        mapper.delete(user);
+    }
+
+    public void saveUser(User user) {
+        mapper.save(user);
+    }
+
+    public void saveTeam(Team team) {
+        mapper.save(team);
+    }
+
+    public List<User> getAllUsers() {
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":t", new AttributeValue().withS("user"));
+
+        DynamoDBQueryExpression<User> queryExpression = new DynamoDBQueryExpression<User>()
+                .withIndexName("EntityTypeGSI")
+                .withKeyConditionExpression("itemType = :t")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        return mapper.query(User.class, queryExpression);
+    }
+
+    public Team getTeam(String teamId) {
+        Team team = null;
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS("TEAM#" + teamId));
+
+        DynamoDBQueryExpression<Team> queryExpression = new DynamoDBQueryExpression<Team>()
+                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        PaginatedQueryList<Team> result = this.mapper.query(Team.class, queryExpression);
+        if (!result.isEmpty()) {
+            team = result.get(0);
+        }
+        return team;
+    }
+
+    public Project getProjectForTeam(String teamId) {
+        Project project = null;
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS("PROJECT"));
+
+        DynamoDBQueryExpression<Project> queryExpression = new DynamoDBQueryExpression<Project>()
+                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        PaginatedQueryList<Project> result = this.mapper.query(Project.class, queryExpression);
+        if (!result.isEmpty()) {
+            project = result.get(0);
+        }
+        return project;
+    }
+
+    public List<User> getMembersOfTheTeam(String teamId) {
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS("USER#"));
+
+        DynamoDBQueryExpression<User> queryExpression = new DynamoDBQueryExpression<User>()
+                .withConsistentRead(false)
+                .withKeyConditionExpression("(PK = :pk) AND begins_with(SK, :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues);
+
+        return mapper.query(User.class, queryExpression);
+    }
 }

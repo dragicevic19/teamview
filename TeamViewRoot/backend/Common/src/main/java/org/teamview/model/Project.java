@@ -7,46 +7,21 @@ import org.teamview.utils.LocalDateConverter;
 
 import java.util.Date;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBTable(tableName = "SingleTable")
-
 public class Project extends Item {
 
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
     private String id;
-
-    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
     private String type = "project";
-    @DynamoDBAttribute
     private String title;
-
-    @DynamoDBAttribute
     private String description;
 
-    @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = LocalDateConverter.class)
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     private Date startDate;
-
-    @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = LocalDateConverter.class)
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     private Date endDate;
-
-    @DynamoDBAttribute
     private String client;
 
-//    private Team team;
-
-    @DynamoDBAttribute
     private String teamId;
-
-    @DynamoDBAttribute
-    @DynamoDBTypeConvertedEnum
     private ProjectStatus projectStatus;
 
     @Override
@@ -57,17 +32,103 @@ public class Project extends Item {
 
     @Override
     @DynamoDBRangeKey(attributeName = "SK")
-    String getSK() {
-        return "PROJECT#" + id;
+    public String getSK() {
+        return "PROJECT";
     }
 
     @Override
-    void setPK(String pk) {
+    public void setPK(String pk) {
         this.PK = pk;
     }
 
     @Override
-    void setSK(String sk) {
+    public void setSK(String sk) {
         this.SK = sk;
+    }
+
+    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @DynamoDBAttribute
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @DynamoDBAttribute
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @DynamoDBAttribute
+    @DynamoDBTypeConverted(converter = LocalDateConverter.class)
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @DynamoDBAttribute
+    @DynamoDBTypeConverted(converter = LocalDateConverter.class)
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    @DynamoDBAttribute
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    @DynamoDBAttribute
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    @DynamoDBAttribute
+    @DynamoDBTypeConvertedEnum
+    public ProjectStatus getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(ProjectStatus projectStatus) {
+        this.projectStatus = projectStatus;
     }
 }
