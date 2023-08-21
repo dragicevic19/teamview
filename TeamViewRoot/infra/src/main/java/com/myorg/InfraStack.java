@@ -34,6 +34,9 @@ public class InfraStack extends Stack {
         Function getTeamsLambda = createLambdaFunction("GetTeamsLambda", 1024);
         singleTable.grantReadWriteData(getTeamsLambda);
 
+        Function newTeamLambda = createLambdaFunction("NewTeamLambda", 1024);
+        singleTable.grantReadWriteData(newTeamLambda);
+
         Function getEmployeesLambda = createLambdaFunction("GetEmployeesLambda", 1024);
         singleTable.grantReadWriteData(getEmployeesLambda);
 
@@ -46,6 +49,13 @@ public class InfraStack extends Stack {
 //                                .authorizationType(AuthorizationType.CUSTOM)
 //                                .authorizer(customAuthorizer)
 //                                .build());
+        api.getRoot()
+                .getResource("teams")
+                .addMethod("POST", new LambdaIntegration(newTeamLambda));
+//                        MethodOptions.builder()
+//                                .authorizationType(AuthorizationType.CUSTOM)
+//                                .authorizer(customAuthorizer)
+//                                .build());
 
         api.getRoot()
                 .addResource("employees")
@@ -54,6 +64,8 @@ public class InfraStack extends Stack {
 //                                .authorizationType(AuthorizationType.CUSTOM)
 //                                .authorizer(customAuthorizer)
 //                                .build());
+
+
     }
 
     private RestApi buildApiGateway() {

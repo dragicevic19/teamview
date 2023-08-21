@@ -38,7 +38,6 @@ public class EmployeeService {
     private Project getProjectForTeam(Team team) {
         if (team == null) return null;
 
-        System.out.println("PROJECT FOR TEAM " + team.getId());
         return DynamoBuilder.createBuilder().getProjectForTeam(team.getId());
     }
 

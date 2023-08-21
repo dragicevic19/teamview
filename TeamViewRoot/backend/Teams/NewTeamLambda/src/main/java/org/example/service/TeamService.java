@@ -4,6 +4,7 @@ import com.github.f4b6a3.ulid.UlidCreator;
 import org.springframework.stereotype.Service;
 import org.teamview.dto.EmployeeDTO;
 import org.teamview.dto.NewTeamDTO;
+import org.teamview.exception.BadRequestException;
 import org.teamview.model.Team;
 import org.teamview.model.User;
 import org.teamview.repository.DynamoBuilder;
@@ -25,8 +26,10 @@ public class TeamService {
             usr.setId(user.getId());
 
             String teamId = (user.getTeam() != null && user.getTeam().getId() != null) ? user.getTeam().getId() : null;
+            System.out.println("TeamService->newTeam -> teamId for selectedEmployee: " + teamId);
             User dynamoUser = repo.getUser(user.getId(), teamId);
-            repo.deleteUser(dynamoUser); // moram da ga obrisem da bih promenio PK (teamId)?
+            if (dynamoUser == null) throw new BadRequestException("Employee doesn't exist!");
+            repo.deleteUser(dynamoUser);    // deleting user so I can update his PK
 
             dynamoUser.setTeamId(team.getId()); // new team
             dynamoUser.setTeamLead(false);

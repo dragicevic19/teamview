@@ -85,8 +85,43 @@ public class DynamoBuilder {
     }
 
     public User getUser(String userId, String teamId) {
+        User user = null;
         String pk = (teamId == null) ? "NOTEAM" : "TEAM#" + teamId;
-        return mapper.load(User.class, pk, "USER#" + userId);
+        String sk = "USER#" + userId;
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS(pk));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS(sk));
+
+        DynamoDBQueryExpression<User> queryExpression = new DynamoDBQueryExpression<User>()
+                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        PaginatedQueryList<User> result = this.mapper.query(User.class, queryExpression);
+        if (!result.isEmpty()) {
+            user = result.get(0);
+        }
+        return user;
+    }
+
+    public Team getTeam(String teamId) {
+        Team team = null;
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS("TEAM#" + teamId));
+
+        DynamoDBQueryExpression<Team> queryExpression = new DynamoDBQueryExpression<Team>()
+                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        PaginatedQueryList<Team> result = this.mapper.query(Team.class, queryExpression);
+        if (!result.isEmpty()) {
+            team = result.get(0);
+        }
+        return team;
     }
 
     public void deleteUser(User user) {
@@ -112,25 +147,6 @@ public class DynamoBuilder {
                 .withConsistentRead(false);
 
         return mapper.query(User.class, queryExpression);
-    }
-
-    public Team getTeam(String teamId) {
-        Team team = null;
-
-        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-        expressionAttributeValues.put(":pk", new AttributeValue().withS("TEAM#" + teamId));
-        expressionAttributeValues.put(":sk", new AttributeValue().withS("TEAM#" + teamId));
-
-        DynamoDBQueryExpression<Team> queryExpression = new DynamoDBQueryExpression<Team>()
-                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
-                .withExpressionAttributeValues(expressionAttributeValues)
-                .withConsistentRead(false);
-
-        PaginatedQueryList<Team> result = this.mapper.query(Team.class, queryExpression);
-        if (!result.isEmpty()) {
-            team = result.get(0);
-        }
-        return team;
     }
 
     public Project getProjectForTeam(String teamId) {
