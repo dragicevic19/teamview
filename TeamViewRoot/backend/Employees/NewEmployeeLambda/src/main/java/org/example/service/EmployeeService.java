@@ -23,9 +23,11 @@ public class EmployeeService {
         employee.setPosition(newEmployee.getPosition());
         employee.setSeniority(SeniorityLevel.valueOf(newEmployee.getSeniority()));
 
-        if (newEmployee.getTeam().getId() != null)
+        if (newEmployee.getTeam().getId() != null) {
             employee.setTeamId(newEmployee.getTeam().getId());
-
+            // todo: add team's project to employee's project list
+            // todo: USER#1 | PROJECT#projID | i ostali atributi projekta koji treba da se prikazu
+        }
         repo.saveUser(employee);
     }
 

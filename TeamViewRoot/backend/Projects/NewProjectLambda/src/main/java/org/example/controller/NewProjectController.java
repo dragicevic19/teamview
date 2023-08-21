@@ -21,8 +21,11 @@ public class NewProjectController {
             produces = "application/json",
             consumes = "application/json"
     )
-    public ResponseEntity<?> createNewEmployee(@RequestBody NewProjectDTO newProject) {
-        projectService.newProject(newProject);
+    public ResponseEntity<?> newProject(@RequestBody NewProjectDTO newProject) {
+        if (newProject.getId() == null)
+            projectService.newProject(newProject);
+        else
+            projectService.editProject(newProject);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

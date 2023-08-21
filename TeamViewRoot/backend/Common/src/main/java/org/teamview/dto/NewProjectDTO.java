@@ -10,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewProjectDTO {
+    private String id;
     private String title;
     private String client;
     private String description;
@@ -17,5 +18,6 @@ public class NewProjectDTO {
     private Date startDate;
     private Date endDate;
     private String status;
+    private String prevTeamId;
 
 }

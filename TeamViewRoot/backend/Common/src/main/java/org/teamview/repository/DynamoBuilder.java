@@ -103,6 +103,27 @@ public class DynamoBuilder {
         return user;
     }
 
+    public Project getProject(String projectId, String teamId) {
+        Project project = null;
+        String pk = (teamId == null) ? "NOTEAM" : "TEAM#" + teamId;
+        String sk = "PROJECT#" + projectId;
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS(pk));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS(sk));
+
+        DynamoDBQueryExpression<Project> queryExpression = new DynamoDBQueryExpression<Project>()
+                .withKeyConditionExpression("(PK = :pk) AND (SK = :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withConsistentRead(false);
+
+        PaginatedQueryList<Project> result = this.mapper.query(Project.class, queryExpression);
+        if (!result.isEmpty()) {
+            project = result.get(0);
+        }
+        return project;
+    }
+
     public Team getTeam(String teamId) {
         Team team = null;
 
@@ -175,9 +196,12 @@ public class DynamoBuilder {
     public void deleteUser(User user) {
         mapper.delete(user);
     }
-
-
+    public void deleteProject(Project project) {
+        mapper.delete(project);
+    }
 }
+
+
 //    public void saveTeamClient(Team team) {
 //        Map<String, AttributeValue> attrs = new HashMap<>();
 //        attrs.put("PK", new AttributeValue(team.getPK()));

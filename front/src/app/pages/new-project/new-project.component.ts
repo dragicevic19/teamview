@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Project } from 'src/app/model/Project';
 import { ProjectService } from 'src/app/service/project.service';
 
 export default interface NewProject {
+  id?: string;
   title: string;
   client: string;
   team: any;
@@ -11,6 +13,7 @@ export default interface NewProject {
   startDate?: any;
   endDate?: any;
   status: string;
+  prevTeamId?: string;
 }
 
 @Component({
@@ -21,7 +24,7 @@ export default interface NewProject {
 })
 export class NewProjectComponent implements OnInit {
 
-  editProject: any = {};
+  editProject: Project = {} as Project;
   newProject: NewProject = {
     title: '',
     client: '',
@@ -46,6 +49,7 @@ export class NewProjectComponent implements OnInit {
     localStorage.removeItem('editProject');
 
     if (this.editProject) {
+      this.newProject.id = this.editProject.id;
       this.newProject.title = this.editProject.title;
       this.newProject.client = this.editProject.client;
       this.newProject.description = this.editProject.description;
@@ -53,6 +57,7 @@ export class NewProjectComponent implements OnInit {
       this.newProject.endDate = this.editProject.endDate;
       this.newProject.team = this.editProject.team;
       this.newProject.status = this.editProject.status;
+      this.newProject.prevTeamId = this.editProject.team?.id;
     }
   }
 
@@ -89,20 +94,24 @@ export class NewProjectComponent implements OnInit {
       });
       return;
     }
+    this.sendNewProject();
 
-    if (this.editProject && Object.keys(this.editProject).length) {
-      this.sendEdit();
-    }
-    else {
-      this.sendNewProject();
-    }
+    // if (this.editProject && Object.keys(this.editProject).length) {
+    //   this.sendEdit();
+    // }
+    // else {
+    //   this.sendNewProject();
+    // }
   }
 
   sendNewProject() {
     this.projectService.newProject(this.newProject).subscribe({
       next: () => {
+        const message = (this.editProject && Object.keys(this.editProject).length) ? 
+        "edited" : "added new";
+
         this.snackBar.open(
-          'Successfully added new project: ' + this.newProject.title + '!', 'OK', {
+          'Successfully ' + message + ' project: ' + this.newProject.title + '!', 'OK', {
           duration: 2000
         });
         this.router.navigate(['/projects']);
@@ -111,18 +120,18 @@ export class NewProjectComponent implements OnInit {
     });
   }
 
-  sendEdit() {
-    this.projectService.editProject(this.newProject, this.editProject.id).subscribe({
-      next: () => {
-        this.snackBar.open(
-          'Successfully edited project: ' + this.newProject.title + '!', 'OK', {
-          duration: 2000
-        });
-        this.router.navigate(['/projects']);
-      },
-      error: (err) => console.log(err)
-    });
-  }
+  // sendEdit() {
+  //   this.projectService.editProject(this.newProject, this.editProject.id).subscribe({
+  //     next: () => {
+  //       this.snackBar.open(
+  //         'Successfully edited project: ' + this.newProject.title + '!', 'OK', {
+  //         duration: 2000
+  //       });
+  //       this.router.navigate(['/projects']);
+  //     },
+  //     error: (err) => console.log(err)
+  //   });
+  // }
 
   validate() {
     return !this.newProject.title || !this.newProject.client || !this.newProject.description

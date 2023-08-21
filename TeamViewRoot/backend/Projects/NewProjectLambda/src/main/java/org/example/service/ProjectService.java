@@ -7,34 +7,14 @@ import org.teamview.dto.NewProjectDTO;
 import org.teamview.dto.ProjectDTO;
 import org.teamview.enums.ProjectStatus;
 import org.teamview.enums.SeniorityLevel;
+import org.teamview.exception.BadRequestException;
 import org.teamview.model.Project;
+import org.teamview.model.Team;
 import org.teamview.model.User;
 import org.teamview.repository.DynamoBuilder;
 
 @Service
 public class ProjectService {
-
-    public void newEmployee(NewEmployeeDTO newEmployee) {
-        DynamoBuilder repo = DynamoBuilder.createBuilder();
-
-        User employee = new User();
-        employee.setId(UlidCreator.getUlid().toLowerCase());
-        employee.setFirstName(newEmployee.getName());
-        employee.setLastName(newEmployee.getLastName());
-        employee.setAddress(newEmployee.getAddress());
-        employee.setEmail(newEmployee.getEmail());
-        employee.setTeamLead(false);
-        employee.setPosition(newEmployee.getPosition());
-        employee.setSeniority(SeniorityLevel.valueOf(newEmployee.getSeniority()));
-
-        if (newEmployee.getTeam().getId() != null) {
-            employee.setTeamId(newEmployee.getTeam().getId());
-            // todo: add team's project to employee's project list
-            // todo: USER#1 | PROJECT#projID | i ostali atributi projekta koji treba da se prikazu
-        }
-
-        repo.saveUser(employee);
-    }
 
     public void newProject(NewProjectDTO newProject) {
         DynamoBuilder repo = DynamoBuilder.createBuilder();
@@ -52,8 +32,42 @@ public class ProjectService {
             project.setTeamId(newProject.getTeam().getId());
             // todo: add project to all members of the team
         }
+        repo.saveProject(project);
+    }
+
+    public void editProject(NewProjectDTO newProject) {
+        DynamoBuilder repo = DynamoBuilder.createBuilder();
+
+        Project project = repo.getProject(newProject.getId(), newProject.getPrevTeamId());
+        if (project == null) throw new BadRequestException("Project doesn't exist!");
+
+        updateTeamForProject(newProject, repo, project);
+
+        System.out.println("NEW TEAM ID");
+        System.out.println(project.getTeamId());
+
+        project.setTitle(newProject.getTitle());
+        project.setClient(newProject.getClient());
+        project.setProjectStatus(ProjectStatus.valueOf(newProject.getStatus()));
+        project.setDescription(newProject.getDescription());
+        project.setEndDate(newProject.getEndDate());
+        project.setStartDate(newProject.getStartDate());
 
         repo.saveProject(project);
+    }
 
+    private void updateTeamForProject(NewProjectDTO newProject, DynamoBuilder repo, Project project) {
+
+        if (project.getTeamId() != null && !project.getTeamId().equals(newProject.getTeam().getId())) {
+            // replacing team
+            repo.deleteProject(project);
+            project.setTeamId(newProject.getTeam().getId());
+            // todo: add project to new employees?
+
+        } else if (project.getTeamId() == null && newProject.getTeam().getId() != null) {
+            repo.deleteProject(project);
+            project.setTeamId(newProject.getTeam().getId());
+            // todo: add project to new employees?
+        }
     }
 }
