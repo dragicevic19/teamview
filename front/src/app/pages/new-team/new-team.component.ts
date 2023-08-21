@@ -88,8 +88,9 @@ export class NewTeamComponent implements OnInit {
   }
 
   submit() {
-    if (!this.newTeam.name || !this.leadSelected()) {
-      this.snackBar.open('Name of the team and team leader are required!', 'OK', {
+    // if (!this.newTeam.name || !this.leadSelected()) {
+    if (!this.newTeam.name) {
+      this.snackBar.open('Name of the team is required!', 'OK', {
         duration: 3000,
       });
       return;
@@ -109,8 +110,7 @@ export class NewTeamComponent implements OnInit {
         this.snackBar.open(
           'Successfully added new team: ' + team.name + '!', 'OK', {
           duration: 2000
-        }
-        );
+        });
         this.router.navigate(['/teams']);
       },
       error: (err) => console.log(err)

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/model/Employee';
-import { PaginationResponse } from 'src/app/model/PaginationResponse';
 import { UserService } from 'src/app/service/user.service';
 
 
@@ -34,9 +33,9 @@ export class PeopleComponent implements OnInit {
   fetchEmployees() {
     this.loading = true;
     this.userService.fetchEmployees(this.rows, this.page).subscribe({
-      next: (res: PaginationResponse) => {
-        this.totalItems = res.totalItems;
-        this.employees = res.data;
+      next: (res: any) => {
+        // this.totalItems = res.totalItems;
+        this.employees = res;
         this.loading = false;
       },
       error: (err) => {

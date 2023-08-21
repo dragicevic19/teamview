@@ -38,8 +38,8 @@ export class TeamsComponent implements OnInit {
     this.loading = true;
     this.teamService.fetchTeams(this.rows, this.page).subscribe({
       next: (res) => {
-        this.totalItems = res.totalItems;
-        this.teams = res.data;
+        // this.totalItems = res.totalItems;
+        this.teams = res;
         this.loading = false;
       },
       error: (err) => {

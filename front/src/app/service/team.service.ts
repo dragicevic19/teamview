@@ -18,7 +18,7 @@ export class TeamService {
   constructor(private http: HttpClient) { }
 
   fetchTeams(rows: number, page: number) {
-    return this.http.get<PaginationResponse>(`${this.baseUrl}`);
+    return this.http.get<Team[]>(`${this.baseUrl}`);
   }
 
   newTeam(newTeam: NewTeam) {
