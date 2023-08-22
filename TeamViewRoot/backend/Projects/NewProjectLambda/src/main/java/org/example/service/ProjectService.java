@@ -11,7 +11,10 @@ import org.teamview.exception.BadRequestException;
 import org.teamview.model.Project;
 import org.teamview.model.Team;
 import org.teamview.model.User;
+import org.teamview.model.UserProject;
 import org.teamview.repository.DynamoBuilder;
+
+import java.util.List;
 
 @Service
 public class ProjectService {
@@ -30,9 +33,19 @@ public class ProjectService {
 
         if (newProject.getTeam().getId() != null) {
             project.setTeamId(newProject.getTeam().getId());
-            // todo: add project to all members of the team
+            addProjectToTeamMembers(project);
         }
         repo.saveProject(project);
+    }
+
+    private void addProjectToTeamMembers(Project project) {
+        DynamoBuilder repo = DynamoBuilder.createBuilder();
+
+        List<User> teamMembers = repo.getMembersOfTheTeam(project.getTeamId());
+        teamMembers.forEach(user -> {
+            UserProject userProject = new UserProject(user.getId(), project);
+            repo.saveUsersProject(userProject);
+        });
     }
 
     public void editProject(NewProjectDTO newProject) {
@@ -56,15 +69,15 @@ public class ProjectService {
     private void updateTeamForProject(NewProjectDTO newProject, DynamoBuilder repo, Project project) {
 
         if (project.getTeamId() != null && !project.getTeamId().equals(newProject.getTeam().getId())) {
-            // replacing team
-            repo.deleteProject(project);
-            project.setTeamId(newProject.getTeam().getId());
-            // todo: add project to new employees?
-
+            changeTeam(newProject, repo, project);
         } else if (project.getTeamId() == null && newProject.getTeam().getId() != null) {
-            repo.deleteProject(project);
-            project.setTeamId(newProject.getTeam().getId());
-            // todo: add project to new employees?
+            changeTeam(newProject, repo, project);
         }
+    }
+
+    private void changeTeam(NewProjectDTO newProject, DynamoBuilder repo, Project project) {
+        repo.deleteProject(project);
+        project.setTeamId(newProject.getTeam().getId());
+        addProjectToTeamMembers(project);
     }
 }

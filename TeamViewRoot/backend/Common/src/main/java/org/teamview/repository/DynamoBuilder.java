@@ -8,10 +8,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
-import org.teamview.model.Item;
-import org.teamview.model.Project;
-import org.teamview.model.Team;
-import org.teamview.model.User;
+import org.teamview.model.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -178,6 +175,19 @@ public class DynamoBuilder {
         return project;
     }
 
+    public List<UserProject> getUserProjects(String userId) {
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":pk", new AttributeValue().withS("USER#" + userId));
+        expressionAttributeValues.put(":sk", new AttributeValue().withS("PROJECT#"));
+
+        DynamoDBQueryExpression<UserProject> queryExpression = new DynamoDBQueryExpression<UserProject>()
+                .withConsistentRead(false)
+                .withKeyConditionExpression("(PK = :pk) AND begins_with(SK, :sk)")
+                .withExpressionAttributeValues(expressionAttributeValues);
+
+        return mapper.query(UserProject.class, queryExpression);
+    }
+
 
     // SAVE
     public void saveUser(User user) {
@@ -192,13 +202,20 @@ public class DynamoBuilder {
         mapper.save(project);
     }
 
+    public void saveUsersProject(UserProject usersProject) {
+        mapper.save(usersProject);
+    }
+
     // DELETE
     public void deleteUser(User user) {
         mapper.delete(user);
     }
+
     public void deleteProject(Project project) {
         mapper.delete(project);
     }
+
+
 }
 
 

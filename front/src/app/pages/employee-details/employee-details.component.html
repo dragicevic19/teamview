@@ -57,6 +57,10 @@
 
 <div style="display: flex; gap: 2rem; justify-content: space-between;">
 
+	<div *ngIf="loading">
+		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+	</div>
 	<!-- All Projects -->
-	<app-projects [allProjects]="employee.allProjects" style="min-width: 80rem; width: max-content;"></app-projects>
+	<app-projects *ngIf="!loading" [allProjects]="projects" style="min-width: 80rem; width: max-content;"></app-projects>
+
 </div>

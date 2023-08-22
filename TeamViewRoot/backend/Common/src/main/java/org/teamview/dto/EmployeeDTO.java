@@ -23,6 +23,7 @@ public class EmployeeDTO {
     private boolean isLead;
     private String address;
     private List<ProjectDTO> allProjects;
+    private String teamId;
 
     public EmployeeDTO(User employee, Team team, Project project, List<User> members) {
         this.id = employee.getId();
@@ -32,6 +33,7 @@ public class EmployeeDTO {
 
         if (team != null) {
             this.team = new TeamDTO(team, members, project);
+            this.teamId = team.getId();
             if (project != null)
                 this.project = new ProjectDTO(project, team, members);
         }

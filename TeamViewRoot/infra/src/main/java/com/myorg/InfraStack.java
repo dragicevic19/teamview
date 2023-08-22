@@ -38,6 +38,8 @@ public class InfraStack extends Stack {
 
         Function getEmployeesLambda = createLambdaFunction("GetEmployeesLambda", 1024);
         singleTable.grantReadWriteData(getEmployeesLambda);
+        Function getEmpsProjectsLambda = createLambdaFunction("GetEmployeesProjectsLambda", 1024);
+        singleTable.grantReadWriteData(getEmpsProjectsLambda);
         Function newEmployeeLambda = createLambdaFunction("NewEmployeeLambda", 1024);
         singleTable.grantReadWriteData(newEmployeeLambda);
 
@@ -79,7 +81,6 @@ public class InfraStack extends Stack {
 //                                .authorizer(customAuthorizer)
 //                                .build());
 
-
         api.getRoot()
                 .addResource("projects")
                 .addMethod("GET", new LambdaIntegration(getProjectsLambda));
@@ -90,6 +91,14 @@ public class InfraStack extends Stack {
         api.getRoot()
                 .getResource("projects")
                 .addMethod("POST", new LambdaIntegration(newProjectLambda));
+//                        MethodOptions.builder()
+//                                .authorizationType(AuthorizationType.CUSTOM)
+//                                .authorizer(customAuthorizer)
+//                                .build());
+
+        api.getRoot()
+                .addResource("user-projects")
+                .addMethod("GET", new LambdaIntegration(getEmpsProjectsLambda));
 //                        MethodOptions.builder()
 //                                .authorizationType(AuthorizationType.CUSTOM)
 //                                .authorizer(customAuthorizer)

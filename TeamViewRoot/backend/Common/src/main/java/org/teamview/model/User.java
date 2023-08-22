@@ -4,6 +4,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.github.f4b6a3.ulid.Ulid;
 import lombok.*;
 import org.teamview.enums.SeniorityLevel;
+import org.teamview.utils.ProjectSetConverter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +24,14 @@ public class User extends Item {
     private String position;
     private SeniorityLevel seniority;
     private boolean teamLead;
+
+    private Set<Project> pastProjects = new HashSet<>();
+
+    public User(String id, String teamId) {
+        super();
+        this.id = id;
+        this.teamId = teamId;
+    }
 
     // todo: past projects? json
 
@@ -133,5 +145,15 @@ public class User extends Item {
 
     public void setTeamLead(boolean teamLead) {
         this.teamLead = teamLead;
+    }
+
+    @DynamoDBAttribute
+    @DynamoDBTypeConverted(converter = ProjectSetConverter.class)
+    public Set<Project> getPastProjects() {
+        return pastProjects;
+    }
+
+    public void setPastProjects(Set<Project> pastProjects) {
+        this.pastProjects = pastProjects;
     }
 }

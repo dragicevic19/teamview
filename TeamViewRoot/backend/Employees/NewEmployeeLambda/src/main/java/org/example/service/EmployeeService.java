@@ -5,8 +5,13 @@ import org.springframework.stereotype.Service;
 import org.teamview.dto.NewEmployeeDTO;
 import org.teamview.enums.SeniorityLevel;
 import org.teamview.exception.BadRequestException;
+import org.teamview.model.Project;
+import org.teamview.model.Team;
 import org.teamview.model.User;
+import org.teamview.model.UserProject;
 import org.teamview.repository.DynamoBuilder;
+
+import java.util.List;
 
 @Service
 public class EmployeeService {
@@ -26,10 +31,19 @@ public class EmployeeService {
 
         if (newEmployee.getTeam().getId() != null) {
             employee.setTeamId(newEmployee.getTeam().getId());
-            // todo: add team's project to employee's project list
-            // todo: USER#1 | PROJECT#projID | i ostali atributi projekta koji treba da se prikazu
+            addTeamsProjectToUser(employee);
         }
         repo.saveUser(employee);
+    }
+
+    private void addTeamsProjectToUser(User employee) {
+        DynamoBuilder repo = DynamoBuilder.createBuilder();
+
+        Project teamProject = repo.getProjectForTeam(employee.getTeamId());
+        if (teamProject != null) {
+            UserProject usersProject = new UserProject(employee.getId(), teamProject);
+            repo.saveUsersProject(usersProject);
+        }
     }
 
     public void editEmployee(NewEmployeeDTO newEmployee) {
@@ -51,18 +65,30 @@ public class EmployeeService {
 
 
     private void updateTeamForEmployee(NewEmployeeDTO newEmployee, DynamoBuilder repo, User user) {
+        // if user has team AND new team is not the same -> replace with new team   OR
+        // if user has not been in any team AND there is new team assigned -> replace NOTEAM with new team
 
         if (user.getTeamId() != null && !user.getTeamId().equals(newEmployee.getTeam().getId())) {
-            // replacing team
-            repo.deleteUser(user);
-            user.setTeamId(newEmployee.getTeam().getId());
-            user.setTeamLead(false);
-            // todo: add project to all user's project
+            if (user.getTeamLead()) {
+                removeLeadFromTeam(repo, user);
+            }
+            changeTeam(newEmployee, repo, user);
+
         } else if (user.getTeamId() == null && newEmployee.getTeam().getId() != null) {
-            repo.deleteUser(user);
-            user.setTeamId(newEmployee.getTeam().getId());
-            user.setTeamLead(false);
-            // todo: add project to all user's project
+            changeTeam(newEmployee, repo, user);
         }
+    }
+
+    private void changeTeam(NewEmployeeDTO newEmployee, DynamoBuilder repo, User user) {
+        repo.deleteUser(user);
+        user.setTeamId(newEmployee.getTeam().getId());
+        user.setTeamLead(false);
+        addTeamsProjectToUser(user);
+    }
+
+    private static void removeLeadFromTeam(DynamoBuilder repo, User user) {
+        Team previousTeam = repo.getTeam(user.getTeamId());
+        previousTeam.setTeamLead(null);
+        repo.saveTeam(previousTeam);
     }
 }

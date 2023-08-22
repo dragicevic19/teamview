@@ -12,15 +12,27 @@ import java.util.Date;
 @DynamoDBTable(tableName = "SingleTable")
 public class Project extends Item {
 
-    private String id;
-    private String type = "project";
-    private String title;
-    private String description;
-    private Date startDate;
-    private Date endDate;
-    private String client;
-    private String teamId;
-    private ProjectStatus projectStatus;
+    protected String id;
+    protected String type = "project";
+    protected String title;
+    protected String description;
+    protected Date startDate;
+    protected Date endDate;
+    protected String client;
+    protected String teamId;
+    protected ProjectStatus projectStatus;
+
+    public Project(Project project) {
+        super();
+        this.id = project.getId();
+        this.title = project.getTitle();
+        this.client = project.getClient();
+        this.projectStatus = project.getProjectStatus();
+        this.startDate = project.getStartDate();
+        this.endDate = project.getEndDate();
+        this.teamId = project.getTeamId();
+        this.description = project.getDescription();
+    }
 
     @Override
     @DynamoDBHashKey(attributeName = "PK")

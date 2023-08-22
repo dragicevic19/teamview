@@ -4,6 +4,7 @@ import lombok.*;
 import org.teamview.model.Project;
 import org.teamview.model.Team;
 import org.teamview.model.User;
+import org.teamview.model.UserProject;
 
 import java.time.LocalDate;
 import java.util.Date;

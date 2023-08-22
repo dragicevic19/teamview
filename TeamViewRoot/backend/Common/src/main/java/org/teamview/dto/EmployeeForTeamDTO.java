@@ -1,6 +1,7 @@
 package org.teamview.dto;
 
 import lombok.*;
+import org.teamview.model.Team;
 import org.teamview.model.User;
 
 @Getter
@@ -15,6 +16,7 @@ public class EmployeeForTeamDTO {
     private String seniority;
     private String position;
     private boolean lead;
+    private String teamId;
 
     public EmployeeForTeamDTO(User employee) {
         this.id = employee.getId();
@@ -23,5 +25,6 @@ public class EmployeeForTeamDTO {
         this.seniority = employee.getSeniority().name().charAt(0) + employee.getSeniority().name().substring(1).toLowerCase();
         this.position = employee.getPosition();
         this.lead = employee.getTeamLead();
+        this.teamId = employee.getTeamId();
     }
 }

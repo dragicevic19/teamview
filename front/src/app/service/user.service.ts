@@ -4,11 +4,13 @@ import { PaginationResponse } from '../model/PaginationResponse';
 import NewEmployee from '../pages/new-employee/new-employee.component';
 import { Employee } from '../model/Employee';
 import { environment } from 'src/environments/environment.development';
+import { Project } from '../model/Project';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
 
   private localUrl = 'http://localhost:8080/employees';
   private awsUrl = environment.apiPath + 'employees';
@@ -31,5 +33,9 @@ export class UserService {
 
   deleteEmployee(employee: Employee) {
     return this.http.delete<void>(`${this.baseUrl}/${employee.id}`);
+  }
+
+  fetchEmployeesProjects(employee: Employee) {
+    return this.http.get<Project[]>(`${environment.apiPath + 'user-projects?id='}${employee.id}`);
   }
 }

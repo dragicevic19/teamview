@@ -12,4 +12,5 @@ export interface Employee {
     lead: boolean;
     allProjects?: Project[];
     address: string;
+    teamId?: string;
 }

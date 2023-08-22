@@ -14,6 +14,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   employee!: Employee;
   projects!: Project[];
+  loading = true;
 
   constructor(
     private router: Router,
@@ -29,8 +30,21 @@ export class EmployeeDetailsComponent implements OnInit {
       this.router.navigate(['/people']);
     }
     else {
-      this.projects = (this.employee.allProjects) ? this.employee.allProjects : [];
+      this.projects = [];
+      this.fetchAllEmployeesProjects();
+      // this.projects = (this.employee.allProjects) ? this.employee.allProjects : [];
     }
+  }
+  fetchAllEmployeesProjects() {
+    this.loading = true;
+
+    this.userService.fetchEmployeesProjects(this.employee).subscribe({
+      next: (res) => {
+        this.projects = res;
+        this.loading = false;
+      },
+      error: (err) => console.log(err)
+    })
   }
 
   edit() {
