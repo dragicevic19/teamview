@@ -1,7 +1,7 @@
 import { Team } from "./Team";
 
 export interface Project {
-    id: number;
+    id: string;
     title: string;
     description: string;
     team?: Team;

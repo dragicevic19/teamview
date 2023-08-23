@@ -19,7 +19,7 @@ const routes: Routes = [
     path: '',
     component: FullComponent,
     children: [
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'home', component: DashboardComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'projects/new', component: NewProjectComponent },
@@ -47,7 +47,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

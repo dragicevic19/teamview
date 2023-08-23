@@ -21,9 +21,18 @@
         <module>infra</module>
         <module>backend/Common</module>
         <module>./backend/CognitoPostConfirmationLambda</module>
-
+        <module>./backend/LambdaAuthorizer</module>
+        <module>./backend/Teams/GetTeamsLambda</module>
+        <module>./backend/Teams/NewTeamLambda</module>
+        <module>./backend/Teams/DeleteTeamLambda</module>
+        <module>./backend/Employees/GetEmployeesProjectsLambda</module>
+        <module>./backend/Employees/GetEmployeesLambda</module>
+        <module>./backend/Employees/DeleteEmployeeLambda</module>
+        <module>./backend/Employees/NewEmployeeLambda</module>
+        <module>./backend/Projects/GetProjectsLambda</module>
+        <module>./backend/Projects/NewProjectLambda</module>
+        <module>./backend/Projects/DeleteProjectLambda</module>
     </modules>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

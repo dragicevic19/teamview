@@ -54,7 +54,7 @@
                             </mat-select>
                         </mat-form-field>
 
-                        <button (click)="submit()" mat-stroked-button
+                        <button (click)="submit()" [disabled]="disableSubmitButton" mat-stroked-button
                         style="width: 100%; background-color: lightskyblue;">{{editProject ? "Edit Project": 'Create Project'}}</button>
                     </div>
                 </div>

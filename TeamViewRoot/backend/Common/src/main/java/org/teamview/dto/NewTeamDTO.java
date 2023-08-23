@@ -1,15 +1,16 @@
-//package org.teamview.dto;
-//
-//import lombok.*;
-//
-//import java.util.List;
-//
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Getter
-//@Setter
-//public class NewTeamDTO {
-//    private String name;
-//    private List<EmployeeDTO> members;
-//    private EmployeeDTO lead;
-//}
+package org.teamview.dto;
+
+import lombok.*;
+
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class NewTeamDTO {
+    private String id;
+    private String name;
+    private List<EmployeeDTO> members;
+    private EmployeeDTO lead;
+}

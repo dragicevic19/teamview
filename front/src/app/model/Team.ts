@@ -2,7 +2,7 @@ import { Employee } from "./Employee";
 import { Project } from "./Project";
 
 export interface Team {
-    id: number;
+    id: string;
     name: string;
     lead?: Employee;
     members?: Employee[];

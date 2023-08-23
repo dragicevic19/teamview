@@ -50,9 +50,8 @@
                 </div>
 
                 <div>
-                    <button (click)="submit()" mat-stroked-button
+                    <button (click)="submit()" [disabled]="disableSubmitButton" mat-stroked-button
                         style="width: 100%; background-color: lightskyblue;">{{editEmployee ? "Edit Employee": 'Add Employee'}}</button>
-                    
                 </div>
                 
             </div>

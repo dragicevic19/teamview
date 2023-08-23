@@ -55,6 +55,7 @@ public class EmployeeService {
         employee.setSeniority(SeniorityLevel.valueOf(newEmployee.getSeniority()));
         employee.setPastProjects(new HashSet<>());
         employee.setDeleted(false);
+        employee.setAddress(newEmployee.getAddress());
 
         if (newEmployee.getTeam() != null && newEmployee.getTeam().getId() != null) {
             Team team = findTeamById(newEmployee.getTeam().getId());

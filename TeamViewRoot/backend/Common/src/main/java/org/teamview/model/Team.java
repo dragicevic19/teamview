@@ -2,43 +2,78 @@ package org.teamview.model;
 
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.github.f4b6a3.ulid.Ulid;
 import lombok.*;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBTable(tableName = "SingleTable")
-
 public class Team extends Item {
 
-    //    @DynamoDBAttribute
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
-    private Ulid id;
-
-    //    @DynamoDBAttribute
-    @DynamoDBIndexHashKey(attributeName = "type", globalSecondaryIndexName = "EntityTypeGSI")
+    private String id;
     private String type = "team";
+    private String teamName;
+    private User teamLead;
+
+    public Team(String id, String teamName, User teamLead) {
+        this.id = id;
+        this.teamName = teamName;
+        this.teamLead = teamLead;
+    }
+
+    @DynamoDBIndexRangeKey(attributeName = "id", globalSecondaryIndexName = "EntityTypeGSI")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @DynamoDBIndexHashKey(attributeName = "itemType", globalSecondaryIndexName = "EntityTypeGSI")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @DynamoDBAttribute
-    private String name;
+    public String getTeamName() {
+        return teamName;
+    }
 
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    @DynamoDBTypeConvertedJson
     @DynamoDBAttribute
-    private String teamLead;         // todo: ?
+    public User getTeamLead() {
+        return teamLead;
+    }
 
-    private boolean deleted = false; // todo: ?
+    public void setTeamLead(User teamLead) {
+        this.teamLead = teamLead;
+    }
 
     @Override
     @DynamoDBHashKey(attributeName = "PK")
-    public String getPk() {
+    public String getPK() {
         return "TEAM#" + id;
+    }
+
+    public void setPK(String PK) {
+        this.PK = PK;
     }
 
     @Override
     @DynamoDBRangeKey(attributeName = "SK")
-    public String getSk() {
+    public String getSK() {
         return "TEAM#" + id;
+    }
+
+    public void setSK(String SK) {
+        this.SK = SK;
     }
 }

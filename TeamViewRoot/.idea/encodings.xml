@@ -4,6 +4,26 @@
     <file url="file://$PROJECT_DIR$/Traditional/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Traditional/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/Common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/DeleteEmployeeLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/DeleteEmployeeLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/GetEmployeesLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/GetEmployeesLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/GetEmployeesProjectsLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/GetEmployeesProjectsLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/NewEmployeeLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Employees/NewEmployeeLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Projects/DeleteProjectLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Projects/DeleteProjectLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Projects/GetProjectsLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Projects/GetProjectsLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Projects/NewProjectLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Projects/NewProjectLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Teams/DeleteTeamLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Teams/DeleteTeamLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Teams/GetTeamsLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Teams/GetTeamsLambda/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Teams/NewTeamLambda/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/Teams/NewTeamLambda/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/infra/src/main/resources" charset="UTF-8" />

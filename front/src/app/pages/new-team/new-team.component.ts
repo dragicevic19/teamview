@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/model/Employee';
-import { Team } from 'src/app/model/Team';
 import { TeamService } from 'src/app/service/team.service';
 
 export default interface NewTeam {
+  id?: string;
   name: string;
   members: Employee[];
   lead: any;
@@ -25,6 +25,9 @@ export class NewTeamComponent implements OnInit {
     lead: {}
   };
 
+
+  disableSubmitButton = false;
+
   leadSelected() {
     return this.newTeam.lead && Object.keys(this.newTeam.lead).length
   }
@@ -36,12 +39,14 @@ export class NewTeamComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.disableSubmitButton = false;
     this.editTeam = JSON.parse(localStorage.getItem('editTeam')!);
     localStorage.removeItem('editTeam');
     if (this.editTeam) {
       this.newTeam.name = this.editTeam.name;
       this.newTeam.members = this.editTeam.members;
-      this.newTeam.lead = this.editTeam.lead
+      this.newTeam.lead = this.editTeam.lead;
+      this.newTeam.id = this.editTeam.id;
     }
   }
 
@@ -88,29 +93,33 @@ export class NewTeamComponent implements OnInit {
   }
 
   submit() {
-    if (!this.newTeam.name || !this.leadSelected()) {
-      this.snackBar.open('Name of the team and team leader are required!', 'OK', {
+    // if (!this.newTeam.name || !this.leadSelected()) {
+    if (!this.newTeam.name) {
+      this.snackBar.open('Name of the team is required!', 'OK', {
         duration: 3000,
       });
       return;
     }
+    this.sendNewTeam();
 
-    if (this.editTeam && Object.keys(this.editTeam).length) {
-      this.sendEdit();
-    }
-    else {
-      this.sendNewTeam();
-    }
+    // if (this.editTeam && Object.keys(this.editTeam).length) {
+    //   this.sendEdit();
+    // }
+    // else {
+    //   this.sendNewTeam();
+    // }
   }
 
   sendNewTeam() {
+    this.disableSubmitButton = true;
     this.teamService.newTeam(this.newTeam).subscribe({
-      next: (team: Team) => {
+      next: () => {
+        const message = (this.editTeam && Object.keys(this.editTeam).length) ?
+          "edited" : "added new";
         this.snackBar.open(
-          'Successfully added new team: ' + team.name + '!', 'OK', {
+          'Successfully ' + message + ' team: ' + this.newTeam.name + '!', 'OK', {
           duration: 2000
-        }
-        );
+        });
         this.router.navigate(['/teams']);
       },
       error: (err) => console.log(err)
@@ -119,12 +128,11 @@ export class NewTeamComponent implements OnInit {
 
   sendEdit() {
     this.teamService.editTeam(this.newTeam, this.editTeam.id).subscribe({
-      next: (team: Team) => {
+      next: () => {
         this.snackBar.open(
-          'Successfully edited team: ' + team.name + '!', 'OK', {
+          'Successfully edited team: ' + this.newTeam.name + '!', 'OK', {
           duration: 2000
-        }
-        );
+        });
         this.router.navigate(['/teams']);
       },
       error: (err) => console.log(err)

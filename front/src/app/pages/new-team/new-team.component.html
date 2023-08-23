@@ -13,30 +13,35 @@
 				</mat-chip-listbox>
 			</div>
 
-			<div *ngIf="newTeam.members.length > 0">
-				<h4>Team Members</h4>
-				<mat-chip-listbox class="mb-12">
-					<mat-chip *ngFor="let m of newTeam.members" (click)="removeMember(m)">{{m.name}}</mat-chip>
-				</mat-chip-listbox>
+			<div class="mb-12" style="display: flex; gap: 1rem; align-items: center; justify-content: space-between;">
+
+				<div *ngIf="newTeam.members.length > 0">
+					<h4>Team Members</h4>
+					<mat-chip-listbox class="mb-12">
+						<mat-chip *ngFor="let m of newTeam.members" (click)="removeMember(m)">{{m.name}}</mat-chip>
+					</mat-chip-listbox>
+				</div>
+
+				<div *ngIf="!newTeam.members.length" style="display: flex; align-items: stretch;">
+
+					<p>Select the</p><mat-icon>more_vert</mat-icon>
+					<p>icon to choose team leader and members </p>
+					<mat-chip-listbox class="mb-12">
+						<mat-chip *ngFor="let m of newTeam.members">{{m.name}}</mat-chip>
+					</mat-chip-listbox>
+				</div>
+
+				<div>
+                    <button (click)="submit()" [disabled]="disableSubmitButton" mat-stroked-button
+                        style="width: 100%; background-color: lightskyblue;">{{editTeam ? "Edit Team": 'Add Team'}}</button>
+                    
+                </div>
+
 			</div>
-
-			<div *ngIf="!newTeam.members.length" style="display: flex; align-items: stretch;">
-
-				<p>Select the</p><mat-icon>more_vert</mat-icon>
-				<p>icon to choose team leader and members </p>
-				<mat-chip-listbox class="mb-12">
-					<mat-chip *ngFor="let m of newTeam.members">{{m.name}}</mat-chip>
-				</mat-chip-listbox>
-			</div>
-
 
 			<app-people [selection]="true" (employeeSelected)="employeeAdded($event)"
 				(leadSelected)="teamLeadSelected($event)">
 			</app-people>
-
-			<div>
-				<button (click)="submit()" mat-stroked-button style="width: 100%;">DONE</button>
-			</div>
 		</div>
 	</mat-card-content>
 </mat-card>

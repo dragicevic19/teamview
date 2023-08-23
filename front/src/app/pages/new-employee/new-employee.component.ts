@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Employee } from 'src/app/model/Employee';
 import { UserService } from 'src/app/service/user.service';
 
 export default interface NewEmployee {
+  id?: string;
   name: string;
   lastName: string;
   position: string;
@@ -12,6 +12,7 @@ export default interface NewEmployee {
   team: any;
   email: string;
   address: string;
+  prevTeamId?: string;
 }
 
 @Component({
@@ -26,6 +27,8 @@ export class NewEmployeeComponent implements OnInit {
     { value: 'MEDIOR', show: 'Medior' },
     { value: 'SENIOR', show: 'Senior' }
   ];
+
+  disableSubmitButton = false;
 
   editEmployee: any = {};
 
@@ -46,6 +49,8 @@ export class NewEmployeeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.disableSubmitButton = false;
+
     this.editEmployee = JSON.parse(localStorage.getItem('editEmployee')!);
     localStorage.removeItem('editEmployee');
 
@@ -57,9 +62,9 @@ export class NewEmployeeComponent implements OnInit {
       this.newEmployee.team = this.editEmployee.team;
       this.newEmployee.email = this.editEmployee.email;
       this.newEmployee.address = this.editEmployee.address;
+      this.newEmployee.id = this.editEmployee.id;
+      this.newEmployee.prevTeamId = this.editEmployee.team?.id;
     }
-    console.log(this.editEmployee);
-    
   }
 
   isTeamSelected() {
@@ -94,33 +99,38 @@ export class NewEmployeeComponent implements OnInit {
       });
       return;
     }
+    this.sendNewEmployee();
 
-    if (this.editEmployee && Object.keys(this.editEmployee).length)
-      this.sendEdit();
-    else
-      this.sendNewEmployee();
+    // if (this.editEmployee && Object.keys(this.editEmployee).length)
+    //   this.sendEdit();
+    // else
+    //   this.sendNewEmployee();
   }
 
-  sendEdit() {
-    this.userService.editEmployee(this.newEmployee, this.editEmployee.id).subscribe({
-      next: (res: Employee) => {
-        this.snackBar.open(
-          'Successfully edited employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
-          duration: 2000
-        });
-        this.router.navigate(['/people'])
-      },
-      error: (err) => console.log(err)
-    });
-  }
+  // sendEdit() {
+  //   this.userService.editEmployee(this.newEmployee, this.editEmployee.id).subscribe({
+  //     next: () => {
+  //       this.snackBar.open(
+  //         'Successfully edited employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
+  //         duration: 2000
+  //       });
+  //       this.router.navigate(['/people'])
+  //     },
+  //     error: (err) => console.log(err)
+  //   });
+  // }
 
   sendNewEmployee() {
+    this.disableSubmitButton = true;
     this.userService.newEmployee(this.newEmployee).subscribe({
-      next: (res: Employee) => {
+      next: () => {
+        const message = (this.editEmployee && Object.keys(this.editEmployee).length) ? 
+        "edited" : "added new";
         this.snackBar.open(
-          'Successfully added new employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
+          'Successfully ' + message + ' employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
           duration: 2000
         });
+        this.disableSubmitButton = false;
         this.router.navigate(['/people'])
       },
       error: (err) => console.log(err)
