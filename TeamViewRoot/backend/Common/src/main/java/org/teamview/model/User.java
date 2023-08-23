@@ -33,8 +33,6 @@ public class User extends Item {
         this.teamId = teamId;
     }
 
-    // todo: past projects? json
-
     @Override
     @DynamoDBHashKey(attributeName = "PK")
     public String getPK() {

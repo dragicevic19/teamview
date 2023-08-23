@@ -32,7 +32,7 @@
 				</div>
 
 				<div>
-                    <button (click)="submit()" mat-stroked-button
+                    <button (click)="submit()" [disabled]="disableSubmitButton" mat-stroked-button
                         style="width: 100%; background-color: lightskyblue;">{{editTeam ? "Edit Team": 'Add Team'}}</button>
                     
                 </div>

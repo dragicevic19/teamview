@@ -188,10 +188,25 @@ public class DynamoBuilder {
         return mapper.query(UserProject.class, queryExpression);
     }
 
+    public void deleteUsersProjectsItems(User employee) {
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":pk", new AttributeValue().withS("USER#" + employee.getId()));
+
+        DynamoDBQueryExpression<UserProject> queryExpression = new DynamoDBQueryExpression<UserProject>()
+                .withKeyConditionExpression("PK = :pk")
+                .withExpressionAttributeValues(eav);
+        List<UserProject> ddbResults = mapper.query(UserProject.class, queryExpression);
+        mapper.batchDelete(ddbResults);
+    }
+
 
     // SAVE
     public void saveUser(User user) {
         mapper.save(user);
+    }
+
+    public void batchSaveUsers(List<User> members) {
+        mapper.batchSave(members);
     }
 
     public void saveTeam(Team team) {
@@ -215,25 +230,7 @@ public class DynamoBuilder {
         mapper.delete(project);
     }
 
-
+    public void deleteTeam(Team team) {
+        mapper.delete(team);
+    }
 }
-
-
-//    public void saveTeamClient(Team team) {
-//        Map<String, AttributeValue> attrs = new HashMap<>();
-//        attrs.put("PK", new AttributeValue(team.getPK()));
-//        attrs.put("SK", new AttributeValue(team.getSK()));
-//        attrs.put("id", new AttributeValue(String.valueOf(team.getId())));
-//        attrs.put("teamName", new AttributeValue(team.getTeamName()));
-//        attrs.put("itemType", new AttributeValue(team.getType()));
-////        attrs.put("teamLead", new AttributeValue(team.getTeamLead()));
-////        attrs.put("deleted", new AttributeValue(String.valueOf(true)));
-//
-//        try {
-//            client.putItem(TABLE_NAME, attrs);
-//        } catch (ResourceNotFoundException e) {
-//            System.err.format("Error: The table \"%s\" can't be found.\n", TABLE_NAME);
-//        } catch (AmazonServiceException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }

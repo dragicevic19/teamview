@@ -14,6 +14,7 @@ export class TeamDetailsComponent implements OnInit {
 
   team!: Team;
   members!: Employee[];
+  deleteBtnDisabled = false;
 
   constructor(
     private router: Router,
@@ -22,6 +23,7 @@ export class TeamDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.deleteBtnDisabled = false;
     this.team = JSON.parse(localStorage.getItem('team')!);
     localStorage.removeItem('team');
     if (!this.team) this.router.navigate(['/teams']);
@@ -39,6 +41,7 @@ export class TeamDetailsComponent implements OnInit {
 
 
   delete() {
+    this.deleteBtnDisabled = true;
     this.teamService.deleteTeam(this.team).subscribe({
       next: () => {
         this.snackBar.open('Successfully removed team: ' + this.team.name, 'OK', {

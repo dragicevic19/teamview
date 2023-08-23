@@ -21,7 +21,7 @@ import java.util.List;
 @Configuration
 public class JWTUtil {
     static ConfigurableJWTProcessor jwtProcessor = new DefaultJWTProcessor();
-    private final static String USER_POOL_ID = "eu-north-1_KkldHIWwQ";
+    private final static String USER_POOL_ID = "eu-north-1_fSjWMUBAO";
     private final static String AWS_REGION = "eu-north-1";
 
     static {
@@ -48,7 +48,6 @@ public class JWTUtil {
         } catch (JOSEException e) {
             e.printStackTrace();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -66,7 +65,6 @@ public class JWTUtil {
         } catch (JOSEException e) {
             e.printStackTrace();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

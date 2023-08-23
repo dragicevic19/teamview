@@ -42,7 +42,7 @@ public class EmployeeService {
     }
 
     private Team getUsersTeam(User user) {
-        if (user.getTeamId() == null) return null; // todo: check if it returns null if there is no column?
+        if (user.getTeamId() == null) return null;
 
         return DynamoBuilder.createBuilder().getTeam(user.getTeamId());
     }

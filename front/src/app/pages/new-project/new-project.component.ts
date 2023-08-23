@@ -33,6 +33,8 @@ export class NewProjectComponent implements OnInit {
     status: '',
   };
 
+  disableSubmitButton = false;
+
   projectStatusOptions = [
     { show: 'On Hold', value: 'ON_HOLD' },
     { show: 'In Progress', value: 'IN_PROGRESS' },
@@ -45,6 +47,7 @@ export class NewProjectComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.disableSubmitButton = false;
     this.editProject = JSON.parse(localStorage.getItem('editProject')!);
     localStorage.removeItem('editProject');
 
@@ -105,6 +108,8 @@ export class NewProjectComponent implements OnInit {
   }
 
   sendNewProject() {
+    this.disableSubmitButton = true;
+
     this.projectService.newProject(this.newProject).subscribe({
       next: () => {
         const message = (this.editProject && Object.keys(this.editProject).length) ? 

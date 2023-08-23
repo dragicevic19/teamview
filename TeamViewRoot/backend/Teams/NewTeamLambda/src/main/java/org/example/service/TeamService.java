@@ -69,9 +69,9 @@ public class TeamService {
         Team team = repo.getTeam(newTeam.getId());
         if (team == null) throw new BadRequestException("Team doesn't exist!");
 
-        removeExMembers(newTeam, team, repo);
         addNewMembers(newTeam, team, repo);
         changeTeamLead(newTeam, team, repo);
+        removeExMembers(newTeam, team, repo);
 
         team.setTeamName(newTeam.getName());
         repo.saveTeam(team);
@@ -83,12 +83,8 @@ public class TeamService {
             if (team.getTeamLead() == null) {
                 setNewTeamLead(newTeam, team, repo);
             } else if (!team.getTeamLead().getId().equals(newTeam.getLead().getId())) {
-//                User lead = repo.getUser()  TODO: mozda je lead vec obirsan i PK mu je NOTEAM kako to da znam?
-                User lead = new User(team.getTeamLead().getId(), team.getId());
-                lead.setTeamLead(false);
-                repo.saveUser(lead);
-//                team.getTeamLead().setTeamLead(false);
-//                repo.saveUser(team.getTeamLead());  // ovde mislim da je greska jer ne brise lead- msm da ga vrati opet
+                team.getTeamLead().setTeamLead(false);
+                repo.saveUser(team.getTeamLead());  // ovde mislim da je greska jer ne brise lead- msm da ga vrati opet // todo: POPRAVLJENO?
                 setNewTeamLead(newTeam, team, repo);
             }
         } else if (team.getTeamLead() != null) {
@@ -103,11 +99,13 @@ public class TeamService {
     private void setNewTeamLead(NewTeamDTO newTeam, Team team, DynamoBuilder repo) {
         String teamId = team.getId(); // lead is already added in new team so his PK is TEAM#<newTeamId>
         User newLead = repo.getUser(newTeam.getLead().getId(), teamId);
+
         if (newLead == null)
             throw new BadRequestException("Employee with id: <" + newTeam.getLead().getId() + "> and teamId: <" + teamId + "> doesn't exist!");
-        newLead.setTeamLead(true);
         if (!team.getId().equals(newLead.getTeamId()))
             throw new BadRequestException("ERROR - This shouldn't happened! -> TeamId of new TeamLead != teamId");
+
+        newLead.setTeamLead(true);
         repo.saveUser(newLead);
         team.setTeamLead(newLead);
     }
@@ -117,20 +115,17 @@ public class TeamService {
 
             if (!team.getId().equals(empDTO.getTeamId())) {
                 String teamId = empDTO.getTeamId();
-                User user = repo.getUser(empDTO.getId(), teamId);
-                repo.deleteUser(user);
+                User newEmployee = repo.getUser(empDTO.getId(), teamId);
+                repo.deleteUser(newEmployee);
 
-                if (user.getTeamLead() && user.getTeamId() != null)
-                    removeLeadFromTeam(repo, user);
+                if (newEmployee.getTeamLead() && newEmployee.getTeamId() != null)
+                    removeLeadFromTeam(repo, newEmployee);
 
-                user.setTeamLead(false);
-                user.setTeamId(team.getId());
+                newEmployee.setTeamLead(false);
+                newEmployee.setTeamId(team.getId());
 
-                addTeamsProjectToUser(user);
-//                if (newTeam.getLead() != null && user.getId().equals(newTeam.getLead().getId())) {
-//                    changeTeamLead(team, repo, user);
-//                }
-                repo.saveUser(user);
+                addTeamsProjectToUser(newEmployee);
+                repo.saveUser(newEmployee);
             }
         }
     }
@@ -145,15 +140,6 @@ public class TeamService {
         }
     }
 
-//    private void changeTeamLead(Team team, DynamoBuilder repo, User user) {
-//        if (team.getTeamLead() != null && !team.getTeamLead().getId().equals(user.getId())) {
-//            User prevLead = repo.getUser(team.getTeamLead().getId(), team.getId());
-//            prevLead.setTeamLead(false);
-//            repo.saveUser(prevLead);
-//        }
-//        team.setTeamLead(user);
-//        user.setTeamLead(true);
-//    }
 
     private void removeExMembers(NewTeamDTO newTeam, Team team, DynamoBuilder repo) {
         // remove members that are no longer part of the team

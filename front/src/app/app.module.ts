@@ -31,6 +31,7 @@ import { ProjectScheduleComponent } from './components/project-schedule/project-
 import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
 import { EmployersProjectsComponent } from './components/employers-projects/employers-projects.component';
 import { TeamDetailsComponent } from './pages/team-details/team-details.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import { TeamDetailsComponent } from './pages/team-details/team-details.componen
     HttpClientModule,
 
   ],
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

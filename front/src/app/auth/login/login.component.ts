@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = {} as User;
+    this.cognitoService.signOut();
   }
 
   signInWithCognito() {

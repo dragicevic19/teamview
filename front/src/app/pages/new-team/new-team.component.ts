@@ -25,6 +25,9 @@ export class NewTeamComponent implements OnInit {
     lead: {}
   };
 
+
+  disableSubmitButton = false;
+
   leadSelected() {
     return this.newTeam.lead && Object.keys(this.newTeam.lead).length
   }
@@ -36,6 +39,7 @@ export class NewTeamComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.disableSubmitButton = false;
     this.editTeam = JSON.parse(localStorage.getItem('editTeam')!);
     localStorage.removeItem('editTeam');
     if (this.editTeam) {
@@ -107,6 +111,7 @@ export class NewTeamComponent implements OnInit {
   }
 
   sendNewTeam() {
+    this.disableSubmitButton = true;
     this.teamService.newTeam(this.newTeam).subscribe({
       next: () => {
         const message = (this.editTeam && Object.keys(this.editTeam).length) ?

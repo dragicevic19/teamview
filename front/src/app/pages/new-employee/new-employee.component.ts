@@ -28,6 +28,8 @@ export class NewEmployeeComponent implements OnInit {
     { value: 'SENIOR', show: 'Senior' }
   ];
 
+  disableSubmitButton = false;
+
   editEmployee: any = {};
 
   newEmployee: NewEmployee = {
@@ -47,6 +49,8 @@ export class NewEmployeeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.disableSubmitButton = false;
+
     this.editEmployee = JSON.parse(localStorage.getItem('editEmployee')!);
     localStorage.removeItem('editEmployee');
 
@@ -117,6 +121,7 @@ export class NewEmployeeComponent implements OnInit {
   // }
 
   sendNewEmployee() {
+    this.disableSubmitButton = true;
     this.userService.newEmployee(this.newEmployee).subscribe({
       next: () => {
         const message = (this.editEmployee && Object.keys(this.editEmployee).length) ? 
@@ -125,6 +130,7 @@ export class NewEmployeeComponent implements OnInit {
           'Successfully ' + message + ' employee: ' + this.newEmployee.name + ' ' + this.newEmployee.lastName + '!', 'OK', {
           duration: 2000
         });
+        this.disableSubmitButton = false;
         this.router.navigate(['/people'])
       },
       error: (err) => console.log(err)

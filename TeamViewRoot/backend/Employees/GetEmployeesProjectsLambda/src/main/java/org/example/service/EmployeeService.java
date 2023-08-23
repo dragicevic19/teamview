@@ -21,7 +21,9 @@ public class EmployeeService {
         List<ProjectDTO> retList = new ArrayList<>();
         projects.forEach(project -> {
             Team team = repo.getTeam(project.getTeamId());
-            List<User> members = repo.getMembersOfTheTeam(team.getId());
+            List<User> members = new ArrayList<>();
+            if (team != null)
+                members = repo.getMembersOfTheTeam(team.getId());
             retList.add(new ProjectDTO(project, team, members));
         });
 

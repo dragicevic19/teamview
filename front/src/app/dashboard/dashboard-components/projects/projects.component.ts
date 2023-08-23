@@ -67,10 +67,10 @@ export class ProjectsComponent implements OnInit {
         this.snackBar.open('Successfully removed project: ' + project.title, 'OK', {
           duration: 2000,
         });
+        window.location.href = window.location.href;
       },
       error: (err) => console.log(err)
     });
-    window.location.href = window.location.href;
   }
 
 

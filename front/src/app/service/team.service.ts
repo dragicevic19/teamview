@@ -30,7 +30,7 @@ export class TeamService {
   }
 
   deleteTeam(team: Team) {
-    return this.http.delete<void>(`${this.baseUrl}/${team.id}`);
+    return this.http.delete<void>(`${this.baseUrl}?id=${team.id}`);
   }
 
 }

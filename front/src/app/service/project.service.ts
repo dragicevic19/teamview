@@ -29,6 +29,8 @@ export class ProjectService {
   }
 
   deleteProject(project: any) {
-    return this.http.delete<void>(`${this.baseUrl}/${project.id}`);
+    let teamId = null;
+    if (project.team?.id) teamId = project.team.id; 
+    return this.http.delete<void>(`${this.baseUrl}?id=${project.id}&teamId=${teamId}`);
   }
 }

@@ -14,6 +14,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   project!: Project;
   members!: Employee[];
+  deleteBtnDisabled = false;
 
   constructor(
     private router: Router,
@@ -22,6 +23,7 @@ export class ProjectDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.deleteBtnDisabled = false;
     this.project = JSON.parse(localStorage.getItem('project')!);
     localStorage.removeItem('project');
     if (!this.project) this.router.navigate(['/projects']);
@@ -30,11 +32,6 @@ export class ProjectDetailsComponent implements OnInit {
       this.members = this.project.team.members;
     }
     else this.members = [];
-
-    console.log(this.members);
-    console.log(this.project);
-    
-    
   }
 
   edit() {
@@ -43,6 +40,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   delete() {
+    this.deleteBtnDisabled = true;
     this.projectService.deleteProject(this.project).subscribe({
       next: () => {
         this.snackBar.open('Successfully removed project: ' + this.project.title, 'OK', {

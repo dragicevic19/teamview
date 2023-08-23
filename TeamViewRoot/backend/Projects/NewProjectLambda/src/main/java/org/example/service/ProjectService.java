@@ -67,7 +67,6 @@ public class ProjectService {
     }
 
     private void updateTeamForProject(NewProjectDTO newProject, DynamoBuilder repo, Project project) {
-
         if (project.getTeamId() != null && !project.getTeamId().equals(newProject.getTeam().getId())) {
             changeTeam(newProject, repo, project);
         } else if (project.getTeamId() == null && newProject.getTeam().getId() != null) {
@@ -79,5 +78,13 @@ public class ProjectService {
         repo.deleteProject(project);
         project.setTeamId(newProject.getTeam().getId());
         addProjectToTeamMembers(project);
+
+        Project newTeamsPreviousProject = repo.getProjectForTeam(newProject.getTeam().getId());
+        if (newTeamsPreviousProject != null) {
+            repo.deleteProject(newTeamsPreviousProject);
+            newTeamsPreviousProject.setTeamId(null);
+            newTeamsPreviousProject.setProjectStatus(ProjectStatus.ON_HOLD);
+            repo.saveProject(newTeamsPreviousProject);
+        }
     }
 }

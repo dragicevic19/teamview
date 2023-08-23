@@ -32,7 +32,7 @@ export class UserService {
   }
 
   deleteEmployee(employee: Employee) {
-    return this.http.delete<void>(`${this.baseUrl}/${employee.id}`);
+    return this.http.delete<void>(`${this.baseUrl}?id=${employee.id}&teamId=${employee.teamId}`);
   }
 
   fetchEmployeesProjects(employee: Employee) {
